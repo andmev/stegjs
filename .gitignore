@@ -1,0 +1,7 @@
+*.swp
+*.swo
+*~
+*.log
+.idea
+.DS_Store
+node_modules

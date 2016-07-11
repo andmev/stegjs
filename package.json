@@ -1,0 +1,56 @@
+{
+  "name": "stegjs",
+  "version": "1.0.0",
+  "description": "Encrypt message to PNG image.",
+  "main": "bin/stegjs",
+  "scripts": {
+    "test": "nodeunit ./test/*.js"
+  },
+  "bin": {
+    "stegjs": "bin/stegjs"
+  },
+  "keywords": [
+    "steganography",
+    "image",
+    "hide",
+    "secret",
+    "array",
+    "encode",
+    "decode",
+    "least",
+    "significant",
+    "bit"
+  ],
+  "author": "Andrey Medvedev <a.medvedev@me.com> (https://github.com/andmev/)",
+  "files": [
+    "bin/",
+    "app/",
+    "lib/",
+    "dist/",
+    "src/",
+    "resources/",
+    "menu/",
+    "scripts/",
+    "build/",
+    "cli.js",
+    "index.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/andmev/stegjs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/andmev/stegjs/issues"
+  },
+  "homepage": "https://github.com/andmev/stegjs#readme",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "1.1.3",
+    "commander": "2.9.0",
+    "pngjs": "2.3.1",
+    "request": "2.72.0"
+  },
+  "devDependencies": {
+    "nodeunit": "0.9.1"
+  }
+}
