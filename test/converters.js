@@ -1,3 +1,5 @@
+'use strict';
+
 const conv = require('../lib/converters');
 
 exports.conv = {

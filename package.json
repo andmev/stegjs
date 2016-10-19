@@ -1,6 +1,6 @@
 {
   "name": "stegjs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Encrypt message to PNG image.",
   "main": "bin/stegjs",
   "scripts": {

@@ -1,3 +1,5 @@
+'use strict';
+
 const check = require('../lib/checker');
 
 exports.checker = {
