@@ -1,7 +1,7 @@
 
 # stegjs
 
-[![npm](https://img.shields.io/npm/v/stegjs.svg?maxAge=2592000)](https://www.npmjs.com/package/stegjs) [![npm](https://img.shields.io/npm/dt/stegjs.svg?maxAge=1)](https://www.npmjs.com/package/stegjs) [![Build Status](https://travis-ci.org/andmev/stegjs.svg?branch=master)](https://travis-ci.org/andmev/stegjs) [![npm](https://img.shields.io/npm/l/stegjs.svg?maxAge=2592000)](https://www.npmjs.com/package/stegjs)
+[![npm](https://img.shields.io/npm/v/stegjs.svg?maxAge=1)](https://www.npmjs.com/package/stegjs) [![npm](https://img.shields.io/npm/dt/stegjs.svg?maxAge=1)](https://www.npmjs.com/package/stegjs) [![Build Status](https://travis-ci.org/andmev/stegjs.svg?branch=master)](https://travis-ci.org/andmev/stegjs) [![npm](https://img.shields.io/npm/l/stegjs.svg?maxAge=1)](https://www.npmjs.com/package/stegjs)
 
 > Command-line utility for steganography in PNG images. With this application you can send secret messages, passwords or other important information.
 
@@ -58,7 +58,9 @@ $ stegjs nyan.png -e '🐱' 2x1
 After that in the console, you will see the full path to the output image, message and pattern.
 
 ```sh
-/Users/you/secrets/out.png has been encoded, message=🐱, pattern=2x1
+/Users/you/secrets/out.png has been encoded
+message: 🐱
+pattern: 2x1
 ```
 
 
@@ -74,7 +76,9 @@ $ stegjs out.png -d
 After that in the console, you will see the information contained in the encrypted image.
 
 ```sh
-out.png was decoded, message=🐱, pattern=2x1
+out.png was decoded
+message: 🐱
+pattern: 2x1
 ```
 
 
