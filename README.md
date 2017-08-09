@@ -58,7 +58,9 @@ $ stegjs nyan.png -e '🐱' 2x1
 After that in the console, you will see the full path to the output image, message and pattern.
 
 ```sh
-/Users/you/secrets/out.png has been encoded, message=🐱, pattern=2x1
+/Users/you/secrets/out.png has been encoded
+message: 🐱
+pattern: 2x1
 ```
 
 
