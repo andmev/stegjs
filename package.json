@@ -1,6 +1,6 @@
 {
   "name": "stegjs",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Encrypt message to PNG image.",
   "main": "bin/stegjs",
   "scripts": {
@@ -45,12 +45,12 @@
   "homepage": "https://github.com/andmev/stegjs#readme",
   "license": "MIT",
   "dependencies": {
-    "chalk": "1.1.3",
-    "commander": "2.9.0",
-    "pngjs": "2.3.1",
-    "request": "2.72.0"
+    "chalk": "2.1.0",
+    "commander": "2.11.0",
+    "pngjs": "3.3.0",
+    "request": "2.81.0"
   },
   "devDependencies": {
-    "nodeunit": "0.9.1"
+    "nodeunit": "0.11.1"
   }
 }
