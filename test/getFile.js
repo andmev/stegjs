@@ -5,7 +5,7 @@ const get = require('../lib/getFile');
 
 exports.getFile = {
     errorByWrongURI: function (test) {
-        get.byURI('https://dl.dropboxusercontent.com/u/24383165/img1.png', (err) => {
+        get.byURI('https://images.apple.com/ac/flags/1/images/ua/60.png', (err) => {
             test.equal(err, 'Something wrong with URL or server');
         });
         test.done();
