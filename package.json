@@ -45,16 +45,16 @@
   "homepage": "https://github.com/andmev/stegjs#readme",
   "license": "MIT",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@andmev"
+    "registry": "https://registry.npmjs.org"
   },
   "dependencies": {
     "chalk": "2.4.2",
-    "commander": "2.20.0",
+    "commander": "4.0.0",
     "pngjs": "3.4.0",
     "request": "2.88.0"
   },
   "devDependencies": {
     "nodeunit": "0.11.3",
-    "diff": ">=3.5.0"
+    "diff": ">=4.0.1"
   }
 }
