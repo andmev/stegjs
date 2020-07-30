@@ -1,6 +1,6 @@
 {
   "name": "stegjs",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Encrypt message to PNG image.",
   "main": "bin/stegjs",
   "scripts": {
@@ -48,8 +48,8 @@
     "registry": "https://registry.npmjs.org"
   },
   "dependencies": {
-    "chalk": "4.0.0",
-    "commander": "5.0.0",
+    "chalk": "4.1.0",
+    "commander": "6.0.0",
     "pngjs": "5.0.0",
     "request": "2.88.2"
   },
