@@ -22,7 +22,7 @@
 
 'use strict';
 
-const program = require('commander');
+const { program } = require('commander');
 const chalk = require('chalk');
 const path = require('path');
 
@@ -83,5 +83,5 @@ outputValue = outputValue || path.join(process.cwd(), '/out.png');
 
 
 /** Branching according of the program mode. */
-if (program.encode) require('../lib/encode.js')(imageValue, messageValue, stepValue, outputValue);
-if (program.decode) require('../lib/decode.js')(imageValue);
+if (program.opts().encode) require('../lib/encode.js')(imageValue, messageValue, stepValue, outputValue);
+if (program.opts().decode) require('../lib/decode.js')(imageValue);

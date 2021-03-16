@@ -5,7 +5,7 @@ const get = require('../lib/getFile');
 
 exports.getFile = {
     errorByWrongURI: function (test) {
-        get.byURI('https://images.apple.com/ac/flags/1/images/ua/60.png', (err) => {
+        get.byURI('https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png', (err) => {
             test.equal(err, 'Something wrong with URL or server');
         });
         test.done();

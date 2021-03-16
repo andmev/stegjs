@@ -49,12 +49,12 @@
   },
   "dependencies": {
     "chalk": "4.1.0",
-    "commander": "6.0.0",
-    "pngjs": "5.0.0",
+    "commander": "7.1.0",
+    "pngjs": "6.0.0",
     "request": "2.88.2"
   },
   "devDependencies": {
-    "nodeunit": "0.11.3",
-    "diff": ">=4.0.2"
+    "diff": "5.0.0",
+    "nodeunit": "0.11.3"
   }
 }
