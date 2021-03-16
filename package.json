@@ -1,10 +1,11 @@
 {
   "name": "stegjs",
-  "version": "1.0.7",
+  "version": "2.0.0",
   "description": "Encrypt message to PNG image.",
   "main": "bin/stegjs",
   "scripts": {
-    "test": "nodeunit ./test/*.js"
+    "test": "nodeunit ./test/*.js",
+    "build": "tsc"
   },
   "bin": {
     "stegjs": "bin/stegjs"
@@ -50,8 +51,9 @@
   "dependencies": {
     "chalk": "4.1.0",
     "commander": "7.1.0",
+    "node-fetch": "2.6.1",
     "pngjs": "6.0.0",
-    "request": "2.88.2"
+    "typescript": "4.2.3"
   },
   "devDependencies": {
     "diff": "5.0.0",
