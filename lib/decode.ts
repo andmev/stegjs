@@ -10,7 +10,7 @@ import { isPNG, isURI } from './checker.js';
 
 
 /** Function decode messages. */
-const decodeImage = function(img) {
+const decodeImage = img => {
     createReadStream(img).pipe(new PNG({
         filterType: 4
     })).on('parsed', function() {
@@ -74,7 +74,7 @@ const decodeImage = function(img) {
  * Function for decode image
  * @param {string} img - path to the image that contains encrypted text.
  */
-module.exports = img => {
+export const decode =  img => {
     if (isPNG(img)) {
         if (isURI(img)) {
             // Download file and return the path to the downloaded file.

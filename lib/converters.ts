@@ -8,20 +8,20 @@
 export const stringToBits = str => {
 
     // Make a new buffer, based on our incoming message.
-    let buf = Buffer.from(str);
+    let buffer = Buffer.from(str);
 
     // Let's make an array of bits, based on each
     let bitarray = [];
 
-    for (let i = 0; i < buf.length; i++) {
+    for (let i = 0; i < buffer.length; i++) {
 
 
-        let binstr = buf[i].toString(2);
+        let bytesString = buffer[i].toString(2);
 
-        binstr = binstr.padStart(8, "0");
+        bytesString = bytesString.padStart(8, "0");
 
         for (let k = 0; k < 8; k++) {
-            if (binstr.charAt(k) === "0") {
+            if (bytesString.charAt(k) === "0") {
                 bitarray.push(false);
             } else {
                 bitarray.push(true);
@@ -39,32 +39,32 @@ export const stringToBits = str => {
 export const bitsToString = bits => {
 
     let buf = Buffer.alloc(bits.length / 8);
-    let byteidx = -1;
+    let byteID = -1;
 
-    let mybyte = [];
+    let myBytes = [];
     for (let i = 0; i < bits.length; i++) {
-        mybyte.push(bits[i]);
+        myBytes.push(bits[i]);
 
-        if (mybyte.length === 8) {
+        if (myBytes.length === 8) {
 
 
-            let binstr = "";
+            let bytesString = "";
             for (let j = 0; j < 8; j++) {
-                let usebin = "0";
-                if (mybyte[j]) {
-                    usebin = "1";
+                let useByte = "0";
+                if (myBytes[j]) {
+                    useByte = "1";
                 }
-                binstr = binstr + usebin;
+                bytesString = bytesString + useByte;
             }
 
             // Now convert that to an int.
-            let asciinum = parseInt(binstr, 2);
+            let ASCIINum = parseInt(bytesString, 2);
 
-            byteidx++;
-            buf[byteidx] = asciinum;
+            byteID++;
+            buf[byteID] = ASCIINum;
 
             // Clear it when done.
-            mybyte = [];
+            myBytes = [];
         }
     }
     return buf.toString();

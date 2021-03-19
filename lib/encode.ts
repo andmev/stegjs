@@ -10,7 +10,7 @@ import { isRightStep, isPNG, isURI } from './checker.js';
 
 
 /** The function for encoded message. */
-const encodeImage = function(img, msg, step, out) {
+const encodeImage = (img, msg, step, out) => {
 
     // Create the stream and start reading file asynchronously
     createReadStream(img)
@@ -110,7 +110,7 @@ const encodeImage = function(img, msg, step, out) {
  *     the alpha channel of image.
  * @param {string} out - path to output file.
  */
-module.exports = (img, msg, step, out) => {
+export const encode = (img, msg, step, out) => {
 
     // Check that input file was in PNG format.
     if (isPNG(img)) {

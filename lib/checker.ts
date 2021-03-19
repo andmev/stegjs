@@ -19,8 +19,12 @@ export const isPNG = imgPath => imgPath.match(/.png$/i);
  * @returns {Array|{index: number, input: string}|*}
  */
 export const isURI = imgPath => {
-    const url = require('url');
-    return url.parse(imgPath).protocol;
+    try {
+        const url = new URL(imgPath);
+        return url.protocol === "http:" || url.protocol === "https:";
+    } catch (_) {
+        return false;
+    }
 };
 
 /**
