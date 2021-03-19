@@ -4,7 +4,6 @@
   "description": "Encrypt message to PNG image.",
   "main": "bin/stegjs",
   "scripts": {
-    "test": "nodeunit ./test/*.js",
     "build": "tsc"
   },
   "bin": {
@@ -56,7 +55,6 @@
     "typescript": "4.2.3"
   },
   "devDependencies": {
-    "@types/node": "^14.14.35",
-    "nodeunit": "0.11.3"
+    "@types/node": "^14.14.35"
   }
 }

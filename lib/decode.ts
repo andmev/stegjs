@@ -1,5 +1,3 @@
-'use strict';
-
 import { PNG } from 'pngjs';
 import { red, yellow } from 'chalk';
 import { createReadStream } from 'fs';
@@ -79,18 +77,10 @@ export const decode = async img => {
         try {
             if (isURI(img)) {
                 // Download file and return the path to the downloaded file.
-                byURI(img, (err, file) => {
+                const file = await byURI(img);
 
-                    // Check for error (e.g. no permissions to read file)
-                    if (err) {
-                        console.error(red(err));
-                        process.exit(1)
-                    } else {
-
-                        // If all OK, send the path to file to decoding function.
-                        decodeImage(file)
-                    }
-                });
+                // If all OK, send the path to file to decoding function.
+                decodeImage(file);
             } else {
                 const file = await byPath(img);
                 decodeImage(file);

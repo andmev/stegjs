@@ -1,5 +1,3 @@
-'use strict';
-
 import { PNG } from 'pngjs';
 import { red, yellow } from 'chalk';
 import { createReadStream, createWriteStream } from 'fs';
@@ -119,18 +117,11 @@ export const encode = async (img, msg, step, out) => {
             if (isURI(img)) {
 
                 // Download image and return path to the file.
-                byURI(img, (err, file) => {
+                const file = await byURI(img);
 
-                    // Check for error (e.g. no permissions to read file)
-                    if (err) {
-                        throw new URIError(err);
-                    } else {
-
-                        // If all OK, send the path to file, message, step and path to output file
-                        // to decoding function.
-                        encodeImage(file, msg, step, out)
-                    }
-                })
+                // If all OK, send the path to file, message, step and path to output file
+                // to decoding function.
+                encodeImage(file, msg, step, out);
             } else {
 
                 // If img parameter is not URI, then try to access it from the hard drive.

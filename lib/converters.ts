@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * The function converts string into an array of bits.
  * @param str
@@ -14,7 +12,6 @@ export const stringToBits = str => {
     let bitarray = [];
 
     for (let i = 0; i < buffer.length; i++) {
-
 
         let bytesString = buffer[i].toString(2);
 
@@ -46,7 +43,6 @@ export const bitsToString = bits => {
         myBytes.push(bits[i]);
 
         if (myBytes.length === 8) {
-
 
             let bytesString = "";
             for (let j = 0; j < 8; j++) {

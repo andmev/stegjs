@@ -1,5 +1,3 @@
-'use strict';
-
 import { createWriteStream } from 'fs';
 import * as fetch from 'node-fetch';
 
@@ -20,18 +18,19 @@ export const byPath = async (imgPath) => {
 /**
  * Function takes a url, downloads the file and sends the full path to it.
  * @param {string} imgURI
- * @param callback
  */
-export const byURI = (imgURI, callback) => {
-    const filename = imgURI.substring(imgURI.lastIndexOf('/') + 1);
-    fetch(imgURI)
-        .then(res => {
-            const destination = createWriteStream(filename);
-            return res.body.pipe(destination)
-        })
-        .then((stream) => {
-            stream.on('error', err => callback(err, null))
-            stream.on('response', res => res.statusCode >= 400 ? callback('Something wrong with URL or server', null) : null)
-            stream.on('finish', err => callback(err, `${process.cwd()}/${filename}`))
-        })
+export const byURI = imgURI => {
+    return new Promise((resolve, reject) => {
+        const filename = imgURI.substring(imgURI.lastIndexOf('/') + 1);
+        fetch(imgURI)
+            .then(res => {
+                const destination = createWriteStream(filename);
+                return res.body.pipe(destination)
+            })
+            .then((stream) => {
+                stream.on('error', err => reject(err))
+                stream.on('response', res => res.statusCode >= 400 && reject('Something wrong with URL or server'))
+                stream.on('finish', () => resolve(`${process.cwd()}/${filename}`))
+            })
+    })
 };

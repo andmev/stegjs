@@ -1,5 +1,3 @@
-'use strict';
-
 import { constants } from 'fs';
 import { access } from 'fs/promises';
 import { join } from 'path';
