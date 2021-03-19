@@ -1,7 +1,7 @@
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
+import { access, constants } from 'fs';
+import { join } from 'path';
 
 
 /**
@@ -11,14 +11,14 @@ const path = require('path');
  */
 
 // @todo Create better checking for PNG, for example exif or a unique byte.
-exports.isPNG = imgPath => imgPath.match(/.png$/i);
+export const isPNG = imgPath => imgPath.match(/.png$/i);
 
 /**
  * Check the file path to the URI.
  * @param {string} imgPath
  * @returns {Array|{index: number, input: string}|*}
  */
-exports.isURI = imgPath => {
+export const isURI = imgPath => {
     const url = require('url');
     return url.parse(imgPath).protocol;
 };
@@ -28,9 +28,9 @@ exports.isURI = imgPath => {
  * @param {string} imgPath
  * @param callback
  */
-exports.hasAccess = (imgPath, callback) => {
-    imgPath = path.join(process.cwd(), imgPath);
-    fs.access(imgPath, fs.constants.R_OK, (err) => {
+export const hasAccess = (imgPath, callback) => {
+    imgPath = join(process.cwd(), imgPath);
+    access(imgPath, constants.R_OK, (err) => {
         callback(err);
     });
 };
@@ -41,7 +41,7 @@ exports.hasAccess = (imgPath, callback) => {
  * @param step
  * @returns {Array}
  */
-exports.isRightStep = step => {
+export const isRightStep = step => {
     const err = new SyntaxError('Wrong step input. Check help!');
     const divider = step.match(/[xх]/gi)[0];
     const pattern = step.split(divider);

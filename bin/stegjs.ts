@@ -20,11 +20,9 @@
  */
 
 
-'use strict';
-
-const { program } = require('commander');
-const chalk = require('chalk');
-const path = require('path');
+import { program } from 'commander';
+import { green, red, yellow, cyan } from 'chalk';
+import { join } from 'path';
 
 
 /**
@@ -51,9 +49,9 @@ program
 program.on('--help', () => {
     console.log('  Examples:');
     console.log('');
-    console.log(`    $ ${chalk.green('stegjs')} ${chalk.yellow('photos/IMG.png')} --encode ${chalk.cyan("'Secret message'")} 10x10 ${chalk.yellow('secrets/IMG.png')}`);
-    console.log(`    $ ${chalk.green('stegjs')} ${chalk.yellow('http://google.com/img.png')} --encode ${chalk.cyan("'Secret message'")} 1x1 ${chalk.yellow('secrets/IMG.png')}`);
-    console.log(`    $ ${chalk.green('stegjs')} ${chalk.yellow('secrets/IMG.png')} --decode`);
+    console.log(`    $ ${green('stegjs')} ${yellow('photos/IMG.png')} --encode ${cyan("'Secret message'")} 10x10 ${yellow('secrets/IMG.png')}`);
+    console.log(`    $ ${green('stegjs')} ${yellow('http://google.com/img.png')} --encode ${cyan("'Secret message'")} 1x1 ${yellow('secrets/IMG.png')}`);
+    console.log(`    $ ${green('stegjs')} ${yellow('secrets/IMG.png')} --decode`);
     console.log('');
 });
 
@@ -73,13 +71,13 @@ program.parse(process.argv);
 
 /** If there is no input image, then throw an error to the console. */
 if (typeof imageValue === 'undefined') {
-    console.error(chalk.red('No image given! Please see help with next command: $ stegjs --help'));
+    console.error(red('No image given! Please see help with next command: $ stegjs --help'));
     process.exit(1);
 }
 
 
 /** If user does not specify output path, then throw output image to the current folder with name out.png */
-outputValue = outputValue || path.join(process.cwd(), '/out.png');
+outputValue = outputValue || join(process.cwd(), '/out.png');
 
 
 /** Branching according of the program mode. */

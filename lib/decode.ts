@@ -1,14 +1,17 @@
 'use strict';
-const check = require('./checker.js');
-const chalk = require('chalk');
-const conv = require('./converters.js');
-const fs = require('fs');
-const get = require('./getFile.js');
-const PNG = require('pngjs').PNG;
+
+import { PNG } from 'pngjs';
+import { red, yellow } from 'chalk';
+import { createReadStream } from 'fs';
+
+import { byURI, byPath } from './getFile.js';
+import { metaToObj, bitsToString } from './converters.js';
+import { isPNG, isURI } from './checker.js';
+
 
 /** Function decode messages. */
 const decodeImage = function(img) {
-    fs.createReadStream(img).pipe(new PNG({
+    createReadStream(img).pipe(new PNG({
         filterType: 4
     })).on('parsed', function() {
 
@@ -33,8 +36,8 @@ const decodeImage = function(img) {
         }
 
         // Parse the data and return them in variables
-        const [stringLength, widthStep, heightStep] = conv.metaToObj(
-            conv.bitsToString(secretText));
+        const [stringLength, widthStep, heightStep] = metaToObj(
+            bitsToString(secretText));
 
         index = 0;
 
@@ -55,13 +58,13 @@ const decodeImage = function(img) {
         }
 
         // Parse message
-        let data = conv.bitsToString(secretText).split('');
+        let data = bitsToString(secretText).split('');
 
         // Cut by needed length
         data.splice(stringLength, secretText.length - stringLength);
 
         // Print a message to user and where it was saved.
-        console.log(`${img} was decoded!\nmessage: ${chalk.yellow(
+        console.log(`${img} was decoded!\nmessage: ${yellow(
             data.join(''))}\npattern: ${widthStep}x${heightStep}`);
         process.exit(0)
     })
@@ -72,14 +75,14 @@ const decodeImage = function(img) {
  * @param {string} img - path to the image that contains encrypted text.
  */
 module.exports = img => {
-    if (check.isPNG(img)) {
-        if (check.isURI(img)) {
+    if (isPNG(img)) {
+        if (isURI(img)) {
             // Download file and return the path to the downloaded file.
-            get.byURI(img, (err, file) => {
+            byURI(img, (err, file) => {
 
                 // Check for error (e.g. no permissions to read file)
                 if (err) {
-                    console.error(chalk.red(err));
+                    console.error(red(err));
                     process.exit(1)
                 } else {
 
@@ -88,9 +91,9 @@ module.exports = img => {
                 }
             });
         } else {
-            get.byPath(img, (err, file) => {
+            byPath(img, (err, file) => {
                 if (err) {
-                    console.error(chalk.red(err));
+                    console.error(red(err));
                     process.exit(1)
                 } else {
                     decodeImage(file)
@@ -98,7 +101,7 @@ module.exports = img => {
             })
         }
     } else {
-        console.error(chalk.red('Only *.png images supported.'));
+        console.error(red('Only *.png images supported.'));
         process.exit(1)
     }
 };

@@ -1,17 +1,19 @@
 'use strict';
 
-const chalk = require('chalk');
-const check = require('./checker.js');
-const conv = require('./converters.js');
-const fs = require('fs');
-const get = require('./getFile.js');
-const PNG = require('pngjs').PNG;
+import { PNG } from 'pngjs';
+import { red, yellow } from 'chalk';
+import { createReadStream, createWriteStream } from 'fs';
+
+import { byURI, byPath } from './getFile.js';
+import { stringToBits } from './converters.js';
+import { isRightStep, isPNG, isURI } from './checker.js';
+
 
 /** The function for encoded message. */
 const encodeImage = function(img, msg, step, out) {
 
     // Create the stream and start reading file asynchronously
-    fs.createReadStream(img)
+    createReadStream(img)
         .pipe(new PNG({
             filterType: 4       // Throw to stream a new PNG file (that will be output)
         }))
@@ -19,7 +21,7 @@ const encodeImage = function(img, msg, step, out) {
 
             // Check pattern for correctness of input
             // Return two variables: step by width and step by height
-            const [widthValue, heightValue] = check.isRightStep(step);
+            const [widthValue, heightValue] = isRightStep(step);
 
             // Get the length of the message.
             const textLength = msg.length;
@@ -31,10 +33,10 @@ const encodeImage = function(img, msg, step, out) {
             const meta = `${textLength}|${widthValue}|${heightValue}|`;
 
             // Encode meta-information to bits
-            const arr = conv.stringToBits(meta.toString());
+            const arr = stringToBits(meta.toString());
 
             // Encode the message to bits
-            const bits = conv.stringToBits(msg);
+            const bits = stringToBits(msg);
 
             // Variables for iterating through bits array of meta information and message
             let index1 = 0;
@@ -81,7 +83,7 @@ const encodeImage = function(img, msg, step, out) {
                     // If the image dimensions do not allow to write text with a given pattern,
                     // then throw error to user entered a lower step or length of message.
                     if (y === this.height - 1 && x === this.width - 1 && bits.length > index1) {
-                        console.error(chalk.red(`
+                        console.error(red(`
                         Error: A very long message or a wide step! This amount of text does not fit in this picture.
                         Please reduce step, length of the text or use image with higher resolution.`
                         ));
@@ -92,8 +94,8 @@ const encodeImage = function(img, msg, step, out) {
 
             // Save the image and then send the message to the console
             // what and where saved.
-            this.pack().pipe(fs.createWriteStream(out)).on('close', () => {
-                console.log(`${out} has been encoded\nmessage: ${chalk.yellow(msg)}\npattern: ${step}`);
+            this.pack().pipe(createWriteStream(out)).on('close', () => {
+                console.log(`${out} has been encoded\nmessage: ${yellow(msg)}\npattern: ${step}`);
                 process.exit(0)
             });
         });
@@ -111,13 +113,13 @@ const encodeImage = function(img, msg, step, out) {
 module.exports = (img, msg, step, out) => {
 
     // Check that input file was in PNG format.
-    if (check.isPNG(img)) {
+    if (isPNG(img)) {
 
         // Check if we come URI
-        if (check.isURI(img)) {
+        if (isURI(img)) {
 
             // Download image and return path to the file.
-            get.byURI(img, (err, file) => {
+            byURI(img, (err, file) => {
 
                 // Check for error (e.g. no permissions to read file)
                 if (err) {
@@ -132,7 +134,7 @@ module.exports = (img, msg, step, out) => {
         } else {
 
             // If img parameter is not URI, then try to access it from the hard drive.
-            get.byPath(img, (err, file) => {
+            byPath(img, (err, file) => {
 
                 // Again check for error.
                 if (err) {

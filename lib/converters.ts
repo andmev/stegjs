@@ -5,10 +5,10 @@
  * @param str
  * @returns {Array}
  */
-exports.stringToBits = str => {
+export const stringToBits = str => {
 
     // Make a new buffer, based on our incoming message.
-    let buf = new Buffer.from(str);
+    let buf = Buffer.from(str);
 
     // Let's make an array of bits, based on each
     let bitarray = [];
@@ -18,7 +18,7 @@ exports.stringToBits = str => {
 
         let binstr = buf[i].toString(2);
 
-        binstr = binstr.padStart(8, 0);
+        binstr = binstr.padStart(8, "0");
 
         for (let k = 0; k < 8; k++) {
             if (binstr.charAt(k) === "0") {
@@ -36,7 +36,7 @@ exports.stringToBits = str => {
  * @param bits
  * @returns {string|String}
  */
-exports.bitsToString = bits => {
+export const bitsToString = bits => {
 
     let buf = Buffer.alloc(bits.length / 8);
     let byteidx = -1;
@@ -76,4 +76,4 @@ exports.bitsToString = bits => {
  * @param str
  * @returns {Array|*}
  */
-exports.metaToObj = str => str.split('|');
+export const metaToObj = str => str.split('|');

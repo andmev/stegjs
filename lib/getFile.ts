@@ -1,16 +1,17 @@
 'use strict';
 
-const fs = require('fs');
-const check = require('./checker');
-const fetch = require('node-fetch');
+import { createWriteStream } from 'fs';
+import * as fetch from 'node-fetch';
+
+import { hasAccess } from './checker';
 
 /**
  * Function checks the readability of the file and sends the file path.
  * @param {string} imgPath
  * @param callback
  */
-exports.byPath = (imgPath, callback) => {
-    check.hasAccess(imgPath, err => {
+export const byPath = (imgPath, callback) => {
+    hasAccess(imgPath, err => {
         if (err) {
             callback(`Can not read file on path: ${imgPath}`, null);
         } else {
@@ -24,11 +25,11 @@ exports.byPath = (imgPath, callback) => {
  * @param {string} imgURI
  * @param callback
  */
-exports.byURI = (imgURI, callback) => {
+export const byURI = (imgURI, callback) => {
     const filename = imgURI.substring(imgURI.lastIndexOf('/') + 1);
     fetch(imgURI)
         .then(res => {
-            const destination = fs.createWriteStream(filename);
+            const destination = createWriteStream(filename);
             return res.body.pipe(destination)
         })
         .then((stream) => {
