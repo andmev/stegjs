@@ -1,6 +1,7 @@
 'use strict';
 
-import { access, constants } from 'fs';
+import { constants } from 'fs';
+import { access } from 'fs/promises';
 import { join } from 'path';
 
 
@@ -30,13 +31,15 @@ export const isURI = imgPath => {
 /**
  * Checks read access to the file.
  * @param {string} imgPath
- * @param callback
  */
-export const hasAccess = (imgPath, callback) => {
-    imgPath = join(process.cwd(), imgPath);
-    access(imgPath, constants.R_OK, (err) => {
-        callback(err);
-    });
+export const hasAccess = async imgPath => {
+    try {
+        imgPath = join(process.cwd(), imgPath);
+        await access(imgPath, constants.R_OK)
+        return imgPath;
+    } catch (e) {
+        return e;
+    }
 };
 
 /**

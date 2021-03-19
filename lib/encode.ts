@@ -110,42 +110,39 @@ const encodeImage = (img, msg, step, out) => {
  *     the alpha channel of image.
  * @param {string} out - path to output file.
  */
-export const encode = (img, msg, step, out) => {
+export const encode = async (img, msg, step, out) => {
 
     // Check that input file was in PNG format.
     if (isPNG(img)) {
+        try {
+            // Check if we come URI
+            if (isURI(img)) {
 
-        // Check if we come URI
-        if (isURI(img)) {
+                // Download image and return path to the file.
+                byURI(img, (err, file) => {
 
-            // Download image and return path to the file.
-            byURI(img, (err, file) => {
+                    // Check for error (e.g. no permissions to read file)
+                    if (err) {
+                        throw new URIError(err);
+                    } else {
 
-                // Check for error (e.g. no permissions to read file)
-                if (err) {
-                    throw new URIError(err);
-                } else {
+                        // If all OK, send the path to file, message, step and path to output file
+                        // to decoding function.
+                        encodeImage(file, msg, step, out)
+                    }
+                })
+            } else {
 
-                    // If all OK, send the path to file, message, step and path to output file
-                    // to decoding function.
-                    encodeImage(file, msg, step, out)
-                }
-            })
-        } else {
+                // If img parameter is not URI, then try to access it from the hard drive.
+                const file = await byPath(img);
 
-            // If img parameter is not URI, then try to access it from the hard drive.
-            byPath(img, (err, file) => {
-
-                // Again check for error.
-                if (err) {
-                    throw new Error(err);
-                } else {
-
-                    // If all OK, send the path to file, message, step and path to output file
-                    // to decoding function.
-                    encodeImage(file, msg, step, out)
-                }
-            })
+                // If all OK, send the path to file, message, step and path to output file
+                // to decoding function.
+                encodeImage(file, msg, step, out);
+            }
+        } catch (e) {
+            console.error(red(e.message));
+            process.exit(1);
         }
     } else {
 

@@ -8,16 +8,13 @@ import { hasAccess } from './checker';
 /**
  * Function checks the readability of the file and sends the file path.
  * @param {string} imgPath
- * @param callback
  */
-export const byPath = (imgPath, callback) => {
-    hasAccess(imgPath, err => {
-        if (err) {
-            callback(`Can not read file on path: ${imgPath}`, null);
-        } else {
-            callback(null, imgPath);
-        }
-    })
+export const byPath = async (imgPath) => {
+    try {
+        return await hasAccess(imgPath);
+    } catch (e) {
+        return e;
+    }
 };
 
 /**

@@ -74,31 +74,30 @@ const decodeImage = img => {
  * Function for decode image
  * @param {string} img - path to the image that contains encrypted text.
  */
-export const decode =  img => {
+export const decode = async img => {
     if (isPNG(img)) {
-        if (isURI(img)) {
-            // Download file and return the path to the downloaded file.
-            byURI(img, (err, file) => {
+        try {
+            if (isURI(img)) {
+                // Download file and return the path to the downloaded file.
+                byURI(img, (err, file) => {
 
-                // Check for error (e.g. no permissions to read file)
-                if (err) {
-                    console.error(red(err));
-                    process.exit(1)
-                } else {
+                    // Check for error (e.g. no permissions to read file)
+                    if (err) {
+                        console.error(red(err));
+                        process.exit(1)
+                    } else {
 
-                    // If all OK, send the path to file to decoding function.
-                    decodeImage(file)
-                }
-            });
-        } else {
-            byPath(img, (err, file) => {
-                if (err) {
-                    console.error(red(err));
-                    process.exit(1)
-                } else {
-                    decodeImage(file)
-                }
-            })
+                        // If all OK, send the path to file to decoding function.
+                        decodeImage(file)
+                    }
+                });
+            } else {
+                const file = await byPath(img);
+                decodeImage(file);
+            }
+        } catch (e) {
+            console.error(red(e.message));
+            process.exit(1);
         }
     } else {
         console.error(red('Only *.png images supported.'));
