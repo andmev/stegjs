@@ -56,7 +56,6 @@
     "typescript": "4.2.3"
   },
   "devDependencies": {
-    "diff": "5.0.0",
     "nodeunit": "0.11.3"
   }
 }
