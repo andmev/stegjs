@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
-import { PNG } from 'pngjs';
-import { red, yellow } from 'chalk';
 import { createReadStream, createWriteStream } from 'fs';
+import { red, yellow } from 'chalk';
+import { PNG } from 'pngjs';
 
-import { byURI, byPath } from './getFile.js';
+import { byPath, byURI } from './getFile.js';
+import { isPNG, isRightStep, isURI } from './checker.js';
 import { stringToBits } from './converters.js';
-import { isRightStep, isPNG, isURI } from './checker.js';
 
 type encodeImageType = (
   img: string,

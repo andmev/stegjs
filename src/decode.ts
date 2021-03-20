@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
-import { PNG } from 'pngjs';
 import { red, yellow } from 'chalk';
 import { createReadStream } from 'fs';
+import { PNG } from 'pngjs';
 
-import { byURI, byPath } from './getFile.js';
-import { metaToObj, bitsToString } from './converters.js';
+import { bitsToString, metaToObj } from './converters.js';
+import { byPath, byURI } from './getFile.js';
 import { isPNG, isURI } from './checker.js';
 
 type decodeImageType = (img: string) => Promise<void>;

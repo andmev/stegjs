@@ -21,11 +21,12 @@
 
 /* eslint-disable no-console */
 
-import { program } from 'commander';
-import { green, red, yellow, cyan } from 'chalk';
+import { cyan, green, red, yellow } from 'chalk';
 import { join } from 'path';
-import { encode } from './encode';
+import { program } from 'commander';
+
 import { decode } from './decode';
+import { encode } from './encode';
 
 import { version } from '../package.json';
 
