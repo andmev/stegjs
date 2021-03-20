@@ -19,70 +19,76 @@
  THE EASIEST WAY TO INSTALL SOFTWARE USING NODE PACKAGE MANAGER (npm i -g stegjs).
  */
 
+/* eslint-disable no-console */
 
 import { program } from 'commander';
 import { green, red, yellow, cyan } from 'chalk';
 import { join } from 'path';
+import { encode } from './encode';
+import { decode } from './decode';
 
+import { version } from '../package.json';
 
 /**
  * Global variables
  * @type {null}
  */
 let imageValue;
-let messageValue;
-let stepValue;
 let outputValue;
-
+let messageValue = '';
+let stepValue = '1x1';
 
 /** It describes the options and arguments that the program accepts. */
 program
-    .version(require('../package').version)
-    .description('Encrypt you message to PNG image.')
-    .arguments('<image> [message] [step] [output]')
-    .usage('<image or url>.png [mode] [message] [step] [output]')
-    .option('-e, --encode', 'Change program mode to encode file.')
-    .option('-d, --decode', 'Change program mode to decode file');
-
+  .version(version)
+  .description('Encrypt you message to PNG image.')
+  .arguments('<image> [message] [step] [output]')
+  .usage('<image or url>.png [mode] [message] [step] [output]')
+  .option('-e, --encode', 'Change program mode to encode file.')
+  .option('-d, --decode', 'Change program mode to decode file');
 
 /** This is block examples of working with the program. */
 program.on('--help', () => {
-    console.log('  Examples:');
-    console.log('');
-    console.log(`    $ ${green('stegjs')} ${yellow('photos/IMG.png')} --encode ${cyan("'Secret message'")} 10x10 ${yellow('secrets/IMG.png')}`);
-    console.log(`    $ ${green('stegjs')} ${yellow('http://google.com/img.png')} --encode ${cyan("'Secret message'")} 1x1 ${yellow('secrets/IMG.png')}`);
-    console.log(`    $ ${green('stegjs')} ${yellow('secrets/IMG.png')} --decode`);
-    console.log('');
+  console.log('  Examples:');
+  console.log('');
+  console.log(
+    `    $ ${green('stegjs')} ${yellow('photos/IMG.png')} --encode ${cyan(
+      "'Secret message'",
+    )} 10x10 ${yellow('secrets/IMG.png')}`,
+  );
+  console.log(
+    `    $ ${green('stegjs')} ${yellow(
+      'http://google.com/img.png',
+    )} --encode ${cyan("'Secret message'")} 1x1 ${yellow('secrets/IMG.png')}`,
+  );
+  console.log(`    $ ${green('stegjs')} ${yellow('secrets/IMG.png')} --decode`);
+  console.log('');
 });
-
 
 /** The arguments passed by the program. */
 program.action((image, message, step, output) => {
-    imageValue = image;
-    messageValue = message;
-    stepValue = step;
-    outputValue = output;
+  imageValue = image;
+  messageValue = message;
+  stepValue = step;
+  outputValue = output;
 });
-
 
 /** Parse arguments that come into the program. */
 program.parse(process.argv);
 
-
 /** If there is no input image, then throw an error to the console. */
 if (typeof imageValue === 'undefined') {
-    console.error(red('No image given! Please see help with next command: $ stegjs --help'));
-    process.exit(1);
+  console.error(
+    red('No image given! Please see help with next command: $ stegjs --help'),
+  );
+  process.exit(1);
 }
-
 
 /** If user does not specify output path, then throw output image to the current folder with name out.png */
 outputValue = outputValue || join(process.cwd(), '/out.png');
 
-
 /** Branching according of the program mode. */
-if (program.opts()["encode"]) require('./encode.js').encode(imageValue, messageValue, stepValue, outputValue);
-if (program.opts()["decode"]) require('./decode.js').decode(imageValue);
-
-export * from "./encode";
-export * from "./decode";
+if (program.opts()['encode']) {
+  encode(imageValue, messageValue, stepValue, outputValue);
+}
+if (program.opts()['decode']) decode(imageValue);

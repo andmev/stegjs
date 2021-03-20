@@ -9,7 +9,7 @@
     "declarationMap": true,
     "sourceMap": true,
     "outDir": "lib",
-    "rootDir": "src",
+//    "rootDir": "src",
     "strict": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,
@@ -18,13 +18,15 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
     "noPropertyAccessFromIndexSignature": true,
+    "resolveJsonModule": true,
     "typeRoots": [
       "./node_modules/@types"
     ],
     "types": [
       "node",
       "node-fetch",
-      "pngjs"
+      "pngjs",
+      "@types/jest"
     ],
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -34,8 +36,7 @@
     "bin",
     "src"
   ],
-  "exclude": [
-    "node_modules",
-    "test"
+  "exclude" : [
+    "src/**/*.spec.ts"
   ]
 }
