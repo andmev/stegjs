@@ -8,7 +8,7 @@ import { isPNG, isURI } from './checker.js';
 
 
 /** Function decode messages. */
-const decodeImage = img => {
+const decodeImage = (img: string) => {
     createReadStream(img).pipe(new PNG({
         filterType: 4
     })).on('parsed', function() {
@@ -44,8 +44,8 @@ const decodeImage = img => {
             for (let x = 0; x < width; x++) {
                 let idx = (width * y + x) << 2;
 
-                if (y % heightStep === 0) {
-                    if (x % widthStep === 0) {
+                if (y % parseInt(heightStep, 10) === 0) {
+                    if (x % parseInt(widthStep, 10) === 0) {
                         secretText[index] = (this.data[idx + 3] && 1) ?
                             1 :
                             0;
@@ -59,7 +59,7 @@ const decodeImage = img => {
         let data = bitsToString(secretText).split('');
 
         // Cut by needed length
-        data.splice(stringLength, secretText.length - stringLength);
+        data.splice(parseInt(stringLength, 10), secretText.length - parseInt(stringLength, 10));
 
         // Print a message to user and where it was saved.
         console.log(`${img} was decoded!\nmessage: ${yellow(
@@ -72,7 +72,7 @@ const decodeImage = img => {
  * Function for decode image
  * @param {string} img - path to the image that contains encrypted text.
  */
-export const decode = async img => {
+export const decode = async (img: string) => {
     if (isPNG(img)) {
         try {
             if (isURI(img)) {

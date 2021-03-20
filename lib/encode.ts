@@ -7,8 +7,10 @@ import { stringToBits } from './converters.js';
 import { isRightStep, isPNG, isURI } from './checker.js';
 
 
+type encodeImageType = (img: string, msg: string, step: string, out: string) => void;
+
 /** The function for encoded message. */
-const encodeImage = (img, msg, step, out) => {
+const encodeImage: encodeImageType = (img, msg, step, out) => {
 
     // Create the stream and start reading file asynchronously
     createReadStream(img)
@@ -57,7 +59,7 @@ const encodeImage = (img, msg, step, out) => {
                     // This is approach to write message in the image,
                     // which will change the bytes for a specific channel in the least significant bit.
                     // Read more: https://en.wikipedia.org/wiki/Least_significant_bit
-                    if (arr[index2] === false) {
+                    if (!arr[index2]) {
                         this.data[idx] &= 254
                     } else {
                         this.data[idx] |= 1
@@ -66,10 +68,10 @@ const encodeImage = (img, msg, step, out) => {
 
                     // Here we just write message in image
                     // but we write them on a given pattern.
-                    if (y % heightValue === 0) {
-                        if (x % widthValue === 0) {
+                    if (y % parseInt(heightValue, 10) === 0) {
+                        if (x % parseInt(widthValue, 10) === 0) {
 
-                            if (bits[index1] === false) {
+                            if (!bits[index1]) {
                                 this.data[idx + 3] &= 254
                             } else {
                                 this.data[idx + 3] |= 1
@@ -108,7 +110,7 @@ const encodeImage = (img, msg, step, out) => {
  *     the alpha channel of image.
  * @param {string} out - path to output file.
  */
-export const encode = async (img, msg, step, out) => {
+export const encode: encodeImageType = async (img, msg, step, out) => {
 
     // Check that input file was in PNG format.
     if (isPNG(img)) {

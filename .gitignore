@@ -5,3 +5,5 @@
 .idea
 .DS_Store
 node_modules
+bin/**/*.js
+lib/**/*.js

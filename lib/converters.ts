@@ -3,7 +3,7 @@
  * @param str
  * @returns {Array}
  */
-export const stringToBits = str => {
+export const stringToBits = (str: string) => {
 
     // Make a new buffer, based on our incoming message.
     let buffer = Buffer.from(str);
@@ -33,7 +33,7 @@ export const stringToBits = str => {
  * @param bits
  * @returns {string|String}
  */
-export const bitsToString = bits => {
+export const bitsToString = (bits: number[]) => {
 
     let buf = Buffer.alloc(bits.length / 8);
     let byteID = -1;
@@ -72,4 +72,4 @@ export const bitsToString = bits => {
  * @param str
  * @returns {Array|*}
  */
-export const metaToObj = str => str.split('|');
+export const metaToObj = (str: string) => str.split('|');
