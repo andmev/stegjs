@@ -6,6 +6,7 @@ import { byURI, byPath } from './getFile.js';
 import { metaToObj, bitsToString } from './converters.js';
 import { isPNG, isURI } from './checker.js';
 
+type decodeImageType = (img: string) => Promise<void>;
 
 /** Function decode messages. */
 const decodeImage = (img: string) => {
@@ -34,8 +35,7 @@ const decodeImage = (img: string) => {
         }
 
         // Parse the data and return them in variables
-        const [stringLength, widthStep, heightStep] = metaToObj(
-            bitsToString(secretText));
+        const [stringLength, widthStep, heightStep] = metaToObj(bitsToString(secretText));
 
         index = 0;
 
@@ -72,7 +72,7 @@ const decodeImage = (img: string) => {
  * Function for decode image
  * @param {string} img - path to the image that contains encrypted text.
  */
-export const decode = async (img: string) => {
+export const decode: decodeImageType = async img => {
     if (isPNG(img)) {
         try {
             if (isURI(img)) {

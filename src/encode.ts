@@ -7,10 +7,10 @@ import { stringToBits } from './converters.js';
 import { isRightStep, isPNG, isURI } from './checker.js';
 
 
-type encodeImageType = (img: string, msg: string, step: string, out: string) => void;
+type encodeImageType = (img: string, msg: string, step: string, out: string) => Promise<void>;
 
 /** The function for encoded message. */
-const encodeImage: encodeImageType = (img, msg, step, out) => {
+const encodeImage = (img: string, msg: string, step: string, out: string) => {
 
     // Create the stream and start reading file asynchronously
     createReadStream(img)

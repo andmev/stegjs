@@ -13,12 +13,12 @@ export const stringToBits = (str: string) => {
 
     for (let i = 0; i < buffer.length; i++) {
 
-        let bytesString = buffer[i].toString(2);
+        let bytesString = buffer[i]?.toString(2);
 
-        bytesString = bytesString.padStart(8, "0");
+        bytesString = bytesString?.padStart(8, "0");
 
         for (let k = 0; k < 8; k++) {
-            if (bytesString.charAt(k) === "0") {
+            if (bytesString?.charAt(k) === "0") {
                 bitarray.push(false);
             } else {
                 bitarray.push(true);
@@ -72,4 +72,4 @@ export const bitsToString = (bits: number[]) => {
  * @param str
  * @returns {Array|*}
  */
-export const metaToObj = (str: string) => str.split('|');
+export const metaToObj = (str: string) => str.split('|') as [string, string, string];

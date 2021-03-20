@@ -2,17 +2,40 @@
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
-    "lib": ["es6"],
-    "allowJs": false,
-    "outDir": "build",
-    "rootDir": ".",
+    "lib": [
+      "es6"
+    ],
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "lib",
+    "rootDir": "src",
     "strict": true,
     "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "types": [
+      "node",
+      "node-fetch",
+      "pngjs"
+    ],
     "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "types": ["node"],
-    "typeRoots" : ["./node_modules/@types"]
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["bin", "lib"],
-  "exclude": ["node_modules", "test"]
+  "include": [
+    "bin",
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "test"
+  ]
 }

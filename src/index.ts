@@ -81,5 +81,8 @@ outputValue = outputValue || join(process.cwd(), '/out.png');
 
 
 /** Branching according of the program mode. */
-if (program.opts().encode) require('../lib/encode.js').encode(imageValue, messageValue, stepValue, outputValue);
-if (program.opts().decode) require('../lib/decode.js').decode(imageValue);
+if (program.opts()["encode"]) require('./encode.js').encode(imageValue, messageValue, stepValue, outputValue);
+if (program.opts()["decode"]) require('./decode.js').decode(imageValue);
+
+export * from "./encode";
+export * from "./decode";

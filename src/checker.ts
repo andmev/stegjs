@@ -31,7 +31,7 @@ export const isURI = (imgPath: string) => {
  * Checks read access to the file.
  * @param {string} imgPath
  */
-export const hasAccess = async (imgPath: string) => {
+export const hasAccess = async (imgPath: string): Promise<string | Error> => {
     try {
         imgPath = join(process.cwd(), imgPath);
         await access(imgPath, constants.R_OK)
@@ -54,7 +54,7 @@ export const isRightStep = (step: string) => {
         return pattern.map(item => {
             if (isNaN(parseInt(item, 10))) throw err;
             return item
-        })
+        }) as [string, string];
     } else {
         throw err;
     }
