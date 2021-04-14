@@ -1,7 +1,7 @@
 
 # stegjs
 
-[![npm](https://img.shields.io/npm/v/stegjs.svg?maxAge=1)](https://www.npmjs.com/package/stegjs) [![npm](https://img.shields.io/npm/dt/stegjs.svg?maxAge=1)](https://www.npmjs.com/package/stegjs) ![example workflow](https://github.com/github/docs/actions/workflows/test.yml/badge.svg)
+[![npm](https://img.shields.io/npm/v/stegjs.svg?maxAge=1)](https://www.npmjs.com/package/stegjs) [![npm](https://img.shields.io/npm/dt/stegjs.svg?maxAge=1)](https://www.npmjs.com/package/stegjs) ![Steg.js Test workflow](https://github.com/andmev/stegjs/actions/workflows/test.yml/badge.svg)
 [![npm](https://img.shields.io/npm/l/stegjs.svg?maxAge=1)](https://www.npmjs.com/package/stegjs)
 
 > Command-line utility for steganography in PNG images. With this application you can send secret messages, passwords or other important information.
