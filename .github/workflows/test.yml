@@ -1,4 +1,4 @@
-name: Steg.js CI
+name: steg.js CI
 
 on:
   push:
