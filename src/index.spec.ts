@@ -10,7 +10,7 @@ describe('Main Functionality', () => {
       `ts-node ${join(__dirname, 'index.ts')} --version`,
     );
     expect(stderr).toEqual('');
-    expect(stdout).toEqual('2.0.0\n');
+    expect(stdout).toEqual('2.0.1\n');
   });
   it('prints StegJS help information', async () => {
     const { stdout, stderr } = await exec(
