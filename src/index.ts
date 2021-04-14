@@ -93,3 +93,6 @@ if (program.opts()['encode']) {
   encode(imageValue, messageValue, stepValue, outputValue);
 }
 if (program.opts()['decode']) decode(imageValue);
+
+export * from './encode';
+export * from './decode';

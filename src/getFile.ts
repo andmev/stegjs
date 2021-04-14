@@ -5,9 +5,8 @@ import { hasAccess } from './checker';
 
 /**
  * Function checks the readability of the file and sends the file path.
- * @param {string} imgPath
  */
-export const byPath = async (imgPath: string): Promise<string> => {
+export const byPath = async (imgPath: string): Promise<string | Error> => {
   try {
     return await hasAccess(imgPath);
   } catch (e) {
@@ -17,7 +16,6 @@ export const byPath = async (imgPath: string): Promise<string> => {
 
 /**
  * Function takes a url, downloads the file and sends the full path to it.
- * @param {string} imgURI
  */
 export const byURI = (imgURI: string): Promise<string> => {
   return new Promise((resolve, reject) => {

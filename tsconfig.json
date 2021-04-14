@@ -2,9 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
-    "lib": [
-      "es6"
-    ],
+    "lib": ["es6"],
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
@@ -19,24 +17,12 @@
     "noUncheckedIndexedAccess": true,
     "noPropertyAccessFromIndexSignature": true,
     "resolveJsonModule": true,
-    "typeRoots": [
-      "./node_modules/@types"
-    ],
-    "types": [
-      "node",
-      "node-fetch",
-      "pngjs",
-      "@types/jest"
-    ],
+    "typeRoots": ["./node_modules/@types"],
+    "types": ["node", "node-fetch", "pngjs", "@types/jest"],
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": [
-    "bin",
-    "src"
-  ],
-  "exclude" : [
-    "src/**/*.spec.ts"
-  ]
+  "include": ["src"],
+  "exclude": ["src/**/*.spec.ts"]
 }

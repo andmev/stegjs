@@ -3,9 +3,9 @@ import { createReadStream, createWriteStream } from 'fs';
 import { red, yellow } from 'chalk';
 import { PNG } from 'pngjs';
 
-import { byPath, byURI } from './getFile.js';
-import { isPNG, isRightStep, isURI } from './checker.js';
-import { stringToBits } from './converters.js';
+import { byPath, byURI } from './getFile';
+import { isPNG, isRightStep, isURI } from './checker';
+import { stringToBits } from './converters';
 
 type encodeImageType = (
   img: string,
@@ -26,7 +26,7 @@ const encodeImage = (img: string, msg: string, step: string, out: string) => {
     .on('parsed', function () {
       // Check pattern for correctness of input
       // Return two variables: step by width and step by height
-      const [widthValue, heightValue] = isRightStep(step);
+      const [widthValue, heightValue] = isRightStep(step) as [string, string];
 
       // Get the length of the message.
       const textLength = msg.length;
@@ -138,7 +138,7 @@ export const encode: encodeImageType = async (img, msg, step, out) => {
         encodeImage(file, msg, step, out);
       } else {
         // If img parameter is not URI, then try to access it from the hard drive.
-        const file = await byPath(img);
+        const file = (await byPath(img)) as string;
 
         // If all OK, send the path to file, message, step and path to output file
         // to decoding function.

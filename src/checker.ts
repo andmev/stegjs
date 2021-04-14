@@ -10,8 +10,7 @@ import { URL } from 'url';
  */
 
 // @todo Create better checking for PNG, for example exif or a unique byte.
-export const isPNG = (imgPath: string): RegExpMatchArray | null =>
-  imgPath.match(/.png$/i);
+export const isPNG = (imgPath: string): boolean => !!imgPath.match(/.png$/i);
 
 /**
  * Check the file path to the URI.
@@ -31,7 +30,7 @@ export const isURI = (imgPath: string): boolean => {
  * Checks read access to the file.
  * @param {string} imgPath
  */
-export const hasAccess = async (imgPath: string): Promise<string> => {
+export const hasAccess = async (imgPath: string): Promise<string | Error> => {
   try {
     imgPath = join(process.cwd(), imgPath);
     await access(imgPath, constants.R_OK);
@@ -47,15 +46,17 @@ export const hasAccess = async (imgPath: string): Promise<string> => {
  * @param step
  * @returns {Array}
  */
-export const isRightStep = (step: string): [string, string] => {
+export const isRightStep = (step: string): [string, string] | SyntaxError => {
   const err = new SyntaxError('Wrong step input. Check help!');
   const pattern = step.split(/[xх]/gi);
   if (pattern.length === 2) {
     return pattern.map((item) => {
-      if (isNaN(parseInt(item, 10))) throw err;
+      if (isNaN(parseInt(item, 10))) {
+        return err;
+      }
       return item;
     }) as [string, string];
   } else {
-    throw err;
+    return err;
   }
 };

@@ -3,9 +3,9 @@ import { red, yellow } from 'chalk';
 import { createReadStream } from 'fs';
 import { PNG } from 'pngjs';
 
-import { bitsToString, metaToObj } from './converters.js';
-import { byPath, byURI } from './getFile.js';
-import { isPNG, isURI } from './checker.js';
+import { bitsToString, metaToObj } from './converters';
+import { byPath, byURI } from './getFile';
+import { isPNG, isURI } from './checker';
 
 type decodeImageType = (img: string) => Promise<void>;
 
@@ -92,7 +92,7 @@ export const decode: decodeImageType = async (img) => {
         // If all OK, send the path to file to decoding function.
         decodeImage(file);
       } else {
-        const file = await byPath(img);
+        const file = (await byPath(img)) as string;
         decodeImage(file);
       }
     } catch (e) {
