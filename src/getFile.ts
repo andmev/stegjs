@@ -10,7 +10,7 @@ export const byPath = async (imgPath: string): Promise<string | Error> => {
   try {
     return await hasAccess(imgPath);
   } catch (e) {
-    return e;
+    return e as Error;
   }
 };
 
@@ -23,17 +23,17 @@ export const byURI = (imgURI: string): Promise<string> => {
     fetch(imgURI)
       .then((res) => {
         const destination = createWriteStream(filename);
-        return res.body.pipe(destination);
+        return res.body?.pipe(destination);
       })
       .then((stream) => {
-        stream.on('error', (err) => reject(err));
-        stream.on(
+        stream?.on('error', (err) => reject(err));
+        stream?.on(
           'response',
           (res) =>
             res.statusCode >= 400 &&
             reject('Something wrong with URL or server'),
         );
-        stream.on('finish', () => resolve(`${process.cwd()}/${filename}`));
+        stream?.on('finish', () => resolve(`${process.cwd()}/${filename}`));
       });
   });
 };

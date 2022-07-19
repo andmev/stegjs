@@ -145,7 +145,7 @@ export const encode: encodeImageType = async (img, msg, step, out) => {
         encodeImage(file, msg, step, out);
       }
     } catch (e) {
-      console.error(red(e.message));
+      console.error(red((e as Error).message));
       process.exit(1);
     }
   } else {

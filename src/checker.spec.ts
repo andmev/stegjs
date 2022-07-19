@@ -47,14 +47,14 @@ describe('Checker Validation Functionality', () => {
     try {
       Checker.isRightStep('99.55');
     } catch (e) {
-      expect(e.name).toEqual('Wrong step input. Check help!');
+      expect((e as Error).name).toEqual('Wrong step input. Check help!');
     }
   });
   test('Should throw an error if wrong pattern numbers', () => {
     try {
       Checker.isRightStep('AAxBB');
     } catch (e) {
-      expect(e.name).toEqual('Wrong step input. Check help!');
+      expect((e as Error).name).toEqual('Wrong step input. Check help!');
     }
   });
 });

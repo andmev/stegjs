@@ -36,7 +36,7 @@ export const hasAccess = async (imgPath: string): Promise<string | Error> => {
     await access(imgPath, constants.R_OK);
     return imgPath;
   } catch (e) {
-    return e;
+    return e as Error;
   }
 };
 

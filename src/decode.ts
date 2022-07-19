@@ -96,7 +96,7 @@ export const decode: decodeImageType = async (img) => {
         decodeImage(file);
       }
     } catch (e) {
-      console.error(red(e.message));
+      console.error(red((e as Error).message));
       process.exit(1);
     }
   } else {
