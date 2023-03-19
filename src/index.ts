@@ -9,7 +9,7 @@
  Have the option of writing a message into the image by pattern –
  distance between the bits of the message.
 
- Also the program can get the message
+ Also, the program can get the message
  from already encoded PNG image.
 
  A program developed by Andrey Medvedev in 2016.
@@ -67,12 +67,14 @@ program.on('--help', () => {
 });
 
 /** The arguments passed by the program. */
-program.action((image, message, step, output) => {
-  imageValue = image;
-  messageValue = message;
-  stepValue = step;
-  outputValue = output;
-});
+program.action(
+  (image: string, message: string, step: string, output: string) => {
+    imageValue = image;
+    messageValue = message;
+    stepValue = step;
+    outputValue = output;
+  },
+);
 
 /** Parse arguments that come into the program. */
 program.parse(process.argv);
@@ -88,7 +90,7 @@ if (typeof imageValue === 'undefined') {
 /** If user does not specify output path, then throw output image to the current folder with name out.png */
 outputValue = outputValue || join(process.cwd(), '/out.png');
 
-/** Branching according of the program mode. */
+/** Branching according to the program mode. */
 if (program.opts()['encode']) {
   encode(imageValue, messageValue, stepValue, outputValue);
 }

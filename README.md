@@ -51,9 +51,9 @@ The program works in two modes, encrypt and decrypt messages.
 To encrypt a message use one of the following commands:
 
 ```sh
-$ stegjs img.png -e 'Meeting tonight at midnight under the light.' 5x5
-$ stegjs https://google.com/img.png -e 'Xod(}bgwh2^j7>B8X' 1x1 ./secrets/go.png
-$ stegjs nyan.png -e '🐱' 2x1
+$ npx stegjs img.png -e "Meeting tonight at midnight under the light." 5x5
+$ npx stegjs https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png -e "my_secret_pass" 1x1 ./secrets/go.png
+$ npx stegjs nyan.png -e "🐱" 2x1
 ```
 
 After that in the console, you will see the full path to the output image, message and pattern.
@@ -71,7 +71,7 @@ To receive an encrypted message, specify the path to the image with the secret m
 
 
 ```sh
-$ stegjs out.png -d
+$ npx stegjs out.png -d
 ```
 
 After that in the console, you will see the information contained in the encrypted image.

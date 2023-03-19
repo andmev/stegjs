@@ -1,3 +1,5 @@
+import { TextDecoder, TextEncoder } from 'util';
+
 /**
  * The function converts string into an array of bits.
  * @param str
@@ -5,9 +7,9 @@
  */
 export const stringToBits = (str: string): boolean[] => {
   // Make a new buffer, based on our incoming message.
-  const buffer = Buffer.from(str);
+  const buffer = new TextEncoder().encode(str);
 
-  // Let's make an array of bits, based on each
+  // Let's make an array of bits, based on each byte in the buffer.
   const bitarray = [];
 
   for (let i = 0; i < buffer.length; i++) {
@@ -32,7 +34,7 @@ export const stringToBits = (str: string): boolean[] => {
  * @returns {string|String}
  */
 export const bitsToString = (bits: number[]): string => {
-  const buf = Buffer.alloc(bits.length / 8);
+  const buf = new Uint8Array(bits.length / 8);
   let byteID = -1;
 
   let myBytes = [];
@@ -59,7 +61,7 @@ export const bitsToString = (bits: number[]): string => {
       myBytes = [];
     }
   }
-  return buf.toString();
+  return new TextDecoder().decode(buf);
 };
 
 /**

@@ -1,9 +1,9 @@
 {
   "name": "stegjs",
-  "version": "2.0.4",
+  "version": "2.0.6",
   "description": "Encrypt message to PNG image.",
-  "main": "lib/index.js",
-  "types": "lib",
+  "main": "lib/src/index.js",
+  "types": "lib/src",
   "scripts": {
     "lint": "eslint . --ext .ts",
     "build": "rimraf ./lib && tsc -p . --sourcemap",
@@ -19,7 +19,7 @@
     "test:dev": "jest --watchAll --coverage --detectOpenHandles"
   },
   "bin": {
-    "stegjs": "lib/index.js"
+    "stegjs": "lib/src/index.js"
   },
   "husky": {
     "hooks": {
