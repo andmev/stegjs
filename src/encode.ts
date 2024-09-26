@@ -64,9 +64,9 @@ const encodeImage = (img: string, msg: string, step: string, out: string) => {
           // which will change the bytes for a specific channel in the least significant bit.
           // Read more: https://en.wikipedia.org/wiki/Least_significant_bit
           if (!arr[index2]) {
-            this.data[idx] &= 254;
+            this.data[idx] = (this.data[idx] ?? 0) & 254;
           } else {
-            this.data[idx] |= 1;
+            this.data[idx] = (this.data[idx] ?? 0) | 1;
           }
           index2 += 1;
 
@@ -75,9 +75,9 @@ const encodeImage = (img: string, msg: string, step: string, out: string) => {
           if (y % parseInt(heightValue, 10) === 0) {
             if (x % parseInt(widthValue, 10) === 0) {
               if (!bits[index1]) {
-                this.data[idx + 3] &= 254;
+                this.data[idx + 3] = (this.data[idx + 3] ?? 0) & 254;
               } else {
-                this.data[idx + 3] |= 1;
+                this.data[idx + 3] = (this.data[idx + 3] ?? 0) | 1;
               }
               index1 += 1;
             }

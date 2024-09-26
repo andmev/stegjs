@@ -17,10 +17,10 @@ export const byPath = async (imgPath: string): Promise<string | Error> => {
 /**
  * Function takes a url, downloads the file and sends the full path to it.
  */
-export const byURI = (imgURI: string): Promise<string> => {
+export const byURI = async (uri: string): Promise<string> => {
   return new Promise((resolve, reject) => {
-    const filename = imgURI.substring(imgURI.lastIndexOf('/') + 1);
-    fetch(imgURI)
+    const filename = uri.substring(uri.lastIndexOf('/') + 1);
+    fetch(uri)
       .then((res) => {
         const destination = createWriteStream(filename);
         return res.body?.pipe(destination);
