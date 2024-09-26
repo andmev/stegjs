@@ -1,7 +1,7 @@
 import { join } from 'path';
 import { unlink } from 'fs/promises';
 
-import * as GetFile from './getFile';
+import * as GetFile from '../js/getFile';
 
 describe('Get File Functionality', () => {
   test('it should allows user get file', async () => {

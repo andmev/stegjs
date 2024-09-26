@@ -1,4 +1,4 @@
-import * as Converters from './converters';
+import * as Converters from '../js/converters';
 
 describe('Converters Functionality', () => {
   test('stringToBits should convert "0" to a boolean array', () => {

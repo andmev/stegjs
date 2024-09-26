@@ -1,31 +1,50 @@
 {
   "name": "stegjs",
-  "version": "2.0.7",
+  "version": "3.0.0-alpha.0",
   "description": "Encrypt message to PNG image.",
-  "main": "lib/src/index.js",
-  "types": "lib/src",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
-    "lint": "eslint . --ext .ts",
-    "build": "rimraf ./lib && tsc -p . --sourcemap",
-    "prettier-format": "run-script-os",
-    "prettier-format:win32": "prettier --config .prettierrc \"./src/**/*.ts\" --write",
-    "prettier-format:darwin:linux": "prettier --config .prettierrc 'src/**/*.ts' --write",
-    "prettier-format:default": "prettier --config .prettierrc 'src/**/*.ts' --write",
-    "prettier-watch": "run-script-os",
-    "prettier-watch:win32": "onchange \"src/**/*.ts\" -- prettier --write {{changed}}",
-    "prettier-watch:darwin:linux": "onchange 'src/**/*.ts' -- prettier --write {{changed}}",
-    "prettier-watch:default": "onchange 'src/**/*.ts' -- prettier --write {{changed}}",
-    "test": "jest --coverage",
-    "test:dev": "jest --watchAll --coverage --detectOpenHandles"
+    "artifacts": "napi artifacts",
+    "build": "napi build --platform --release",
+    "build:debug": "napi build --platform",
+    "prepublishOnly": "napi prepublish -t npm",
+    "test": "ava",
+    "universal": "napi universal",
+    "version": "napi version"
   },
   "bin": {
-    "stegjs": "lib/src/index.js"
+    "stegjs": "lib/index.js"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run test && npm run prettier-format && npm run lint"
+  "napi": {
+    "name": "stegjs",
+    "triples": {
+      "additional": [
+        "aarch64-apple-darwin",
+        "aarch64-unknown-linux-gnu",
+        "aarch64-unknown-linux-musl",
+        "aarch64-pc-windows-msvc",
+        "x86_64-unknown-linux-musl"
+      ]
     }
   },
+  "ava": {
+    "timeout": "3m"
+  },
+  "engines": {
+    "node": ">= 14",
+    "npm": ">= 6"
+  },
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
+  "cpu": [
+    "x64",
+    "arm",
+    "arm64"
+  ],
   "keywords": [
     "steganography",
     "image",
@@ -39,19 +58,6 @@
     "bit"
   ],
   "author": "Andrey Medvedev <a.medvedev@me.com> (https://github.com/andmev/)",
-  "files": [
-    "bin/",
-    "app/",
-    "lib/",
-    "dist/",
-    "src/",
-    "resources/",
-    "menu/",
-    "scripts/",
-    "build/",
-    "cli.js",
-    "index.js"
-  ],
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/andmev/stegjs.git"
@@ -64,31 +70,8 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "dependencies": {
-    "chalk": "^4.1.2",
-    "commander": "^9.5.0",
-    "node-fetch": "^2.7.0",
-    "pngjs": "^6.0.0",
-    "typescript": "^4.9.5"
-  },
   "devDependencies": {
-    "@types/jest": "^28.1.8",
-    "@types/node": "^18.19.53",
-    "@types/node-fetch": "^2.6.11",
-    "@types/pngjs": "^6.0.5",
-    "@typescript-eslint/eslint-plugin": "^5.62.0",
-    "@typescript-eslint/parser": "^5.62.0",
-    "eslint": "^8.57.1",
-    "eslint-config-prettier": "^8.10.0",
-    "eslint-plugin-jest": "^26.9.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "husky": "^8.0.3",
-    "jest": "^28.1.3",
-    "onchange": "^7.1.0",
-    "prettier": "^2.8.8",
-    "rimraf": "^3.0.2",
-    "run-script-os": "^1.1.6",
-    "ts-jest": "^28.0.8",
-    "ts-node": "^10.9.2"
+    "@napi-rs/cli": "^2.18.4",
+    "ava": "^6.1.3"
   }
 }

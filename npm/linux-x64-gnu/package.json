@@ -1,0 +1,21 @@
+{
+  "name": "stegjs-linux-x64-gnu",
+  "version": "3.0.0-alpha.0",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "main": "stegjs.linux-x64-gnu.node",
+  "files": [
+    "stegjs.linux-x64-gnu.node"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  },
+  "libc": [
+    "glibc"
+  ]
+}

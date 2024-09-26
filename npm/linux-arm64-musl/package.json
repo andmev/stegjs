@@ -1,0 +1,21 @@
+{
+  "name": "stegjs-linux-arm64-musl",
+  "version": "3.0.0-alpha.0",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "arm64"
+  ],
+  "main": "stegjs.linux-arm64-musl.node",
+  "files": [
+    "stegjs.linux-arm64-musl.node"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  },
+  "libc": [
+    "musl"
+  ]
+}

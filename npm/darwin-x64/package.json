@@ -1,0 +1,18 @@
+{
+  "name": "stegjs-darwin-x64",
+  "version": "3.0.0-alpha.0",
+  "os": [
+    "darwin"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "main": "stegjs.darwin-x64.node",
+  "files": [
+    "stegjs.darwin-x64.node"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  }
+}

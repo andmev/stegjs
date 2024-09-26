@@ -1,4 +1,4 @@
-import * as Checker from './checker';
+import * as Checker from '../js/checker';
 
 describe('Checker Validation Functionality', () => {
   test('Extension should be .png', () => {
