@@ -1,4 +1,4 @@
-name: CI
+name: Build and Test
 env:
   DEBUG: napi:*
   APP_NAME: stegjs
