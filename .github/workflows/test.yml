@@ -2,20 +2,20 @@ name: CI
 env:
   DEBUG: napi:*
   APP_NAME: stegjs
-  MACOSX_DEPLOYMENT_TARGET: '10.13'
+  MACOSX_DEPLOYMENT_TARGET: "10.13"
 permissions:
   contents: write
   id-token: write
-'on':
+"on":
   push:
     branches:
       - main
     tags-ignore:
-      - '**'
+      - "**"
     paths-ignore:
-      - '**/*.md'
+      - "**/*.md"
       - LICENSE
-      - '**/*.gitignore'
+      - "**/*.gitignore"
       - .editorconfig
       - docs/**
   pull_request: null
@@ -65,7 +65,10 @@ jobs:
         if: ${{ !matrix.settings.docker }}
         with:
           node-version: 20
-          cache: yarn
+      - name: Setup Yarn
+        run: |
+          corepack enable
+          corepack prepare yarn@4.5.0 --activate
       - name: Install
         uses: dtolnay/rust-toolchain@stable
         if: ${{ !matrix.settings.docker }}
@@ -101,14 +104,13 @@ jobs:
         if: matrix.settings.target == 'i686-pc-windows-msvc'
         with:
           node-version: 20
-          cache: yarn
           architecture: x86
       - name: Build in docker
         uses: addnab/docker-run-action@v3
         if: ${{ matrix.settings.docker }}
         with:
           image: ${{ matrix.settings.docker }}
-          options: '--user 0:0 -v ${{ github.workspace }}/.cargo-cache/git/db:/usr/local/cargo/git/db -v ${{ github.workspace }}/.cargo/registry/cache:/usr/local/cargo/registry/cache -v ${{ github.workspace }}/.cargo/registry/index:/usr/local/cargo/registry/index -v ${{ github.workspace }}:/build -w /build'
+          options: "--user 0:0 -v ${{ github.workspace }}/.cargo-cache/git/db:/usr/local/cargo/git/db -v ${{ github.workspace }}/.cargo/registry/cache:/usr/local/cargo/registry/cache -v ${{ github.workspace }}/.cargo/registry/index:/usr/local/cargo/registry/index -v ${{ github.workspace }}:/build -w /build"
           run: ${{ matrix.settings.build }}
       - name: Build
         run: ${{ matrix.settings.build }}
@@ -133,8 +135,8 @@ jobs:
           - host: windows-latest
             target: x86_64-pc-windows-msvc
         node:
-          - '18'
-          - '20'
+          - "18"
+          - "20"
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v4
@@ -142,8 +144,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
-          cache: yarn
           architecture: x64
+      - name: Setup Yarn
+        run: |
+          corepack enable
+          corepack prepare yarn@4.5.0 --activate
       - name: Install dependencies
         run: yarn install
       - name: Download artifacts
@@ -164,8 +169,8 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - '18'
-          - '20'
+          - "18"
+          - "20"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -173,7 +178,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
-          cache: yarn
+      - name: Setup Yarn
+        run: |
+          corepack enable
+          corepack prepare yarn@4.5.0 --activate
       - name: Install dependencies
         run: yarn install
       - name: Download artifacts
@@ -194,8 +202,8 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - '18'
-          - '20'
+          - "18"
+          - "20"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -203,7 +211,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
-          cache: yarn
+      - name: Setup Yarn
+        run: |
+          corepack enable
+          corepack prepare yarn@4.5.0 --activate
       - name: Install dependencies
         run: |
           yarn config set supportedArchitectures.libc "musl"
@@ -226,8 +237,8 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - '18'
-          - '20'
+          - "18"
+          - "20"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -239,6 +250,14 @@ jobs:
       - name: List packages
         run: ls -R .
         shell: bash
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Setup Yarn
+        run: |
+          corepack enable
+          corepack prepare yarn@4.5.0 --activate
       - name: Install dependencies
         run: |
           yarn config set supportedArchitectures.cpu "arm64"
@@ -253,7 +272,7 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: node:${{ matrix.node }}-slim
-          options: '--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build'
+          options: "--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build"
           run: |
             set -e
             yarn test
@@ -273,6 +292,14 @@ jobs:
       - name: List packages
         run: ls -R .
         shell: bash
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Setup Yarn
+        run: |
+          corepack enable
+          corepack prepare yarn@4.5.0 --activate
       - name: Install dependencies
         run: |
           yarn config set supportedArchitectures.cpu "arm64"
@@ -287,7 +314,7 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: node:lts-alpine
-          options: '--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build'
+          options: "--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build"
           run: |
             set -e
             yarn test
@@ -306,7 +333,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: yarn
+      - name: Setup Yarn
+        run: |
+          corepack enable
+          corepack prepare yarn@4.5.0 --activate
       - name: Install dependencies
         run: yarn install
       - name: Download all artifacts
