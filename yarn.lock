@@ -1310,7 +1310,7 @@ __metadata:
     "@napi-rs/cli": "npm:^2.18.4"
     ava: "npm:^6.1.3"
   bin:
-    stegjs: lib/index.js
+    stegjs: index.js
   languageName: unknown
   linkType: soft
 
