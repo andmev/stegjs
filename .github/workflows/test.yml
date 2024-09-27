@@ -120,6 +120,11 @@ jobs:
               echo "Unsupported package manager. Please install pkg-config, OpenSSL development packages, and zig manually."
               exit 1
             fi
+            export CC="zig cc aarch64-unknown-linux-musl"
+            export AR="zig ar"
+            export PKG_CONFIG_PATH="/usr/aarch64-unknown-linux-musl/lib/pkgconfig"
+            export PKG_CONFIG_SYSROOT_DIR="/usr/aarch64-unknown-linux-musl"
+            export VENDORED_OPENSSL=1
             corepack enable
             corepack prepare yarn@4.5.0 --activate
             ${{ matrix.settings.build }}
