@@ -110,25 +110,9 @@ jobs:
         if: ${{ matrix.settings.docker }}
         with:
           image: ${{ matrix.settings.docker }}
-          options: '--user 0:0 -v ${{ github.workspace }}/.cargo-cache/git/db:/usr/local/cargo/git/db -v ${{ github.workspace }}/.cargo/registry/cache:/usr/local/cargo/registry/cache -v ${{ github.workspace }}:/build -w /build'
+          options: '--user 0:0 -v ${{ github.workspace }}/.cargo-cache/git/db:/usr/local/cargo/git/db -v ${{ github.workspace }}/.cargo/registry/cache:/usr/local/cargo/registry/cache -v ${{ github.workspace }}/.cargo/registry/index:/usr/local/cargo/registry/index -v ${{ github.workspace }}:/build -w /build'
           run: |
-            if command -v apt-get > /dev/null; then
-              apt-get update && apt-get install -y pkg-config libssl-dev zig
-            elif command -v apk > /dev/null; then
-              apk add --no-cache pkgconf openssl-dev zig
-            else
-              echo "Unsupported package manager. Please install pkg-config, OpenSSL development packages, and zig manually."
-              exit 1
-            fi
-            if [ "${{ matrix.settings.target }}" == "aarch64-unknown-linux-musl" ]; then
-              export CC="zig cc --target=aarch64-unknown-linux-musl"
-              export AR="zig ar"
-              export VENDORED_OPENSSL=1
-            elif [ "${{ matrix.settings.target }}" == "x86_64-unknown-linux-musl" ]; then
-              export CC="zig cc --target=x86_64-unknown-linux-musl"
-              export AR="zig ar"
-              export VENDORED_OPENSSL=1
-            fi
+            set -e
             corepack enable
             corepack prepare yarn@4.5.0 --activate
             ${{ matrix.settings.build }}
