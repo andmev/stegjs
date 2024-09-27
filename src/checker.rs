@@ -27,7 +27,7 @@ pub async fn has_access(img_path: &str) -> Result<String, Box<dyn Error>> {
 
 /// Checks the syntax of the pattern. Returns a tuple of step width and height.
 pub fn is_right_step(step: &str) -> Result<(String, String), &'static str> {
-  let parts: Vec<&str> = step.split(|c| c == 'x' || c == 'х').collect();
+  let parts: Vec<&str> = step.split(['x', 'х'].as_ref()).collect();
   if parts.len() == 2 {
     let width = parts[0].parse::<i32>().map_err(|_| "Invalid width")?;
     let height = parts[1].parse::<i32>().map_err(|_| "Invalid height")?;
