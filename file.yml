@@ -5,3 +5,7 @@
     echo "PKG_CONFIG_PATH: $PKG_CONFIG_PATH"
     echo "PKG_CONFIG_SYSROOT_DIR: $PKG_CONFIG_SYSROOT_DIR"
     echo "VENDORED_OPENSSL: $VENDORED_OPENSSL"
+
+- name: Verify Zig Installation
+  run: |
+    zig version
