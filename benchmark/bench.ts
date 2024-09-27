@@ -2,7 +2,7 @@ import { Bench } from 'tinybench'
 
 import { sum } from '../index.js'
 
-function sum(a: number, b: number) {
+function jsSum(a: number, b: number) {
   return a + b
 }
 
@@ -13,7 +13,7 @@ b.add('Native a + 100', () => {
 })
 
 b.add('JavaScript a + 100', () => {
-  sum(10, 10)
+  jsSum(10, 10)
 })
 
 await b.run()
