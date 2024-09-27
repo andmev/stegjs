@@ -1,9 +1,10 @@
-use napi::bindgen_prelude::*;
-use napi_derive::napi;
+#![deny(clippy::all)]
+
+#[macro_use]
+extern crate napi_derive;
 
 #[napi]
-#[tokio::main]
-async fn main() -> Result<()> {
-    let args: Vec<String> = std::env::args().collect();
-    crate::run(args).await
+fn main() -> Result {
+  let args: Vec<String> = std::env::args().collect();
+  crate::run(args).await
 }

@@ -1,4 +1,3 @@
-
 # stegjs
 
 [![npm](https://img.shields.io/npm/v/stegjs.svg?maxAge=1)](https://www.npmjs.com/package/stegjs) [![npm](https://img.shields.io/npm/dt/stegjs.svg?maxAge=1)](https://www.npmjs.com/package/stegjs) ![Steg.js Test workflow](https://github.com/andmev/stegjs/actions/workflows/test.yml/badge.svg)
@@ -13,7 +12,6 @@ To install globally you should enter in terminal window the following command:
 ```sh
 $ npm i -g stegjs
 ```
-
 
 ## Help
 
@@ -41,7 +39,6 @@ Syntax information:
 [output]	path where to save the image with the encoded message.
 ```
 
-
 ## Examples
 
 The program works in two modes, encrypt and decrypt messages.
@@ -64,11 +61,9 @@ message: 🐱
 pattern: 2x1
 ```
 
-
 #### Decode
 
 To receive an encrypted message, specify the path to the image with the secret message and add the flag `-d`.
-
 
 ```sh
 $ npx stegjs out.png -d
@@ -81,7 +76,6 @@ out.png was decoded
 message: 🐱
 pattern: 2x1
 ```
-
 
 ## License
 
