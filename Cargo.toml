@@ -1,6 +1,23 @@
 [package]
+authors = ["Andrey Medvedev <a.medvedev@me.com>"]
+categories = [
+  "multimedia::images",
+  "text-processing",
+  "algorithms"
+]
+description = "Encrypt message to PNG image using steganography"
 edition = "2021"
-name    = "stegjs"
+keywords = [
+  "steganography",
+  "image",
+  "text",
+  "nodejs",
+  "napi",
+]
+license = "MIT"
+name = "stegjs"
+readme = "README.md"
+repository = "https://github.com/andmev/stegjs"
 version = "3.0.0"
 
 [[bin]]

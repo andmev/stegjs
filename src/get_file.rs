@@ -9,8 +9,9 @@ pub async fn by_path(img_path: &str) -> Result<String> {
   has_access(img_path).await
 }
 
-/// Function takes a url, downloads the file and returns the full path to it.
+/// Function takes an url, downloads the file and returns the full path to it.
 pub async fn by_uri(uri: &str) -> Result<String> {
+  println!("Downloading from URI: {}", uri);
   let filename = uri
     .split('/')
     .last()
@@ -18,8 +19,12 @@ pub async fn by_uri(uri: &str) -> Result<String> {
   let path = std::env::current_dir()?.join(filename);
   let path_str = path.to_str().ok_or_else(|| anyhow!("Invalid path"))?;
 
+  println!("Saving to path: {}", path_str);
+
   let client = Client::new();
   let response = client.get(uri).send().await?;
+
+  println!("Response status: {}", response.status());
 
   if !response.status().is_success() {
     return Err(anyhow!("Something wrong with URL or server"));
@@ -28,6 +33,8 @@ pub async fn by_uri(uri: &str) -> Result<String> {
   let mut file = AsyncFile::create(&path).await?;
   let mut content = response.bytes().await?;
   file.write_all_buf(&mut content).await?;
+
+  println!("File downloaded and saved");
 
   Ok(path_str.to_string())
 }
@@ -51,8 +58,13 @@ mod tests {
 
   #[tokio::test]
   async fn test_by_uri() {
-    let uri = "https://example.com/image.jpg";
+    // Use a reliable URL that we know contains an image
+    let uri = "https://raw.githubusercontent.com/rust-lang/rust-artwork/master/logo/rust-logo-128x128.png";
     let result = by_uri(uri).await;
+    
+    if let Err(e) = &result {
+      eprintln!("Error in test_by_uri: {:?}", e);
+    }
     assert!(result.is_ok());
 
     let binding = result.unwrap();

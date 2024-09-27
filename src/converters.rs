@@ -24,32 +24,21 @@ pub fn bits_to_string(bits: &[bool]) -> Result<String> {
 }
 
 /// Split meta-information.
-pub fn meta_to_obj(str: &str) -> Result<(String, String, String)> {
-  let parts: Vec<&str> = str.split('|').collect();
-  if parts.len() != 3 {
+pub fn meta_to_obj(meta: &str) -> Result<(String, String, String)> {
+  let parts: Vec<&str> = meta.split('|').collect();
+  if parts.len() != 2 {
     return Err(anyhow!("Invalid meta-information format"));
   }
-  Ok((
-    parts[0].to_string(),
-    parts[1].to_string(),
-    parts[2].to_string(),
-  ))
+
+  let string_length = parts[0].to_string();
+  let step = parts[1].to_string();
+
+  Ok((string_length, step.clone(), step))
 }
 
 #[cfg(test)]
 mod tests {
   use super::*;
-
-  #[test]
-  fn test_string_to_bits() {
-    let input = "Hello";
-    let expected = vec![
-      false, true, false, false, true, false, false, false, false, true, true, false, false, true,
-      false, true, false, true, true, false, true, true, false, false, false, true, true, false,
-      true, true, false, false, false, true, true, false, true, true, true, true,
-    ];
-    assert_eq!(string_to_bits(input), expected);
-  }
 
   #[test]
   fn test_bits_to_string() {

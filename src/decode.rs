@@ -43,34 +43,47 @@ fn decode_image(img_path: &str) -> Result<()> {
   }
 
   let meta_string = bits_to_string(&secret_text)?;
-  let (string_length, width_step, height_step) = meta_to_obj(&meta_string)?;
+  println!("Meta-information: {}", meta_string);
 
-  let string_length: usize = string_length.parse()?;
-  let width_step: u32 = width_step.parse()?;
-  let height_step: u32 = height_step.parse()?;
+  // Add more detailed error handling
+  match meta_to_obj(&meta_string) {
+      Ok((string_length, width_step, height_step)) => {
+          println!("Parsed meta-information: length={}, width_step={}, height_step={}", 
+                   string_length, width_step, height_step);
+          
+          // Continue with the rest of the function
+          let string_length: usize = string_length.parse()?;
+          let width_step: u32 = width_step.parse()?;
+          let height_step: u32 = height_step.parse()?;
 
-  secret_text.clear();
+          secret_text.clear();
 
-  // Get message from the image
-  'outer: for y in (0..height).step_by(height_step as usize) {
-    for x in (0..width).step_by(width_step as usize) {
-      let pixel = img.get_pixel(x, y);
-      secret_text.push(pixel[3] & 1 == 1);
+          // Get message from the image
+          'outer: for y in (0..height).step_by(height_step as usize) {
+            for x in (0..width).step_by(width_step as usize) {
+              let pixel = img.get_pixel(x, y);
+              secret_text.push(pixel[3] & 1 == 1);
 
-      if secret_text.len() == string_length * 8 {
-        break 'outer;
+              if secret_text.len() == string_length * 8 {
+                break 'outer;
+              }
+            }
+          }
+
+          let message = bits_to_string(&secret_text)?;
+          let message = message.chars().take(string_length).collect::<String>();
+
+          println!("{} was decoded!", img_path);
+          println!("message: {}", message);
+          println!("pattern: {}x{}", width_step, height_step);
+
+          Ok(())
+      },
+      Err(e) => {
+          println!("Failed to parse meta-information: {:?}", e);
+          Err(e)
       }
-    }
   }
-
-  let message = bits_to_string(&secret_text)?;
-  let message = message.chars().take(string_length).collect::<String>();
-
-  println!("{} was decoded!", img_path);
-  println!("message: {}", message);
-  println!("pattern: {}x{}", width_step, height_step);
-
-  Ok(())
 }
 
 #[cfg(test)]
@@ -87,25 +100,34 @@ mod tests {
 
     // Create a test image
     let img = RgbaImage::from_fn(100, 100, |_, _| Rgba([255, 255, 255, 255]));
-    img.save(temp_in.path()).unwrap();
+    img.save(temp_in.path().with_extension("png"))
+        .expect("Failed to save input image");
 
     let test_message = "Test message";
 
     // Encode the message
     encode(
-      temp_in.path().to_str().unwrap(),
+      temp_in.path().with_extension("png").to_str().unwrap(),
       test_message,
       "1x1",
-      temp_out.path().to_str().unwrap(),
+      temp_out.path().with_extension("png").to_str().unwrap(),
     )
     .await
-    .unwrap();
+    .expect("Failed to encode message");
 
+    // Print the contents of the encoded image
+    let encoded_img = image::open(temp_out.path().with_extension("png")).unwrap();
+    println!("Encoded image dimensions: {:?}", encoded_img.dimensions());
+    
     // Decode the message
-    let result = decode(temp_out.path().to_str().unwrap()).await;
+    let result = decode(temp_out.path().with_extension("png").to_str().unwrap()).await;
 
-    assert!(result.is_ok());
-    // Note: We can't easily check the printed output in this test,
-    // but we've verified that the function completes without error.
+    match result {
+      Ok(_) => println!("Decoding successful"),
+      Err(e) => {
+        println!("Decoding failed: {:?}", e);
+        panic!("Decoding failed: {:?}", e);
+      }
+    }
   }
 }
