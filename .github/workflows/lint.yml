@@ -23,6 +23,11 @@ jobs:
           node-version: 20
           cache: 'yarn'
 
+      - name: Setup Yarn
+        run: |
+          corepack enable
+          corepack prepare yarn@4.5.0 --activate
+
       - name: Install
         uses: dtolnay/rust-toolchain@stable
         with:
