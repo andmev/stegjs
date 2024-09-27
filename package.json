@@ -41,6 +41,8 @@
       "ts": "module"
     },
     "timeout": "2m",
+    "concurrency": 4,
+    "failFast": true,
     "workerThreads": false,
     "environmentVariables": {
       "TS_NODE_PROJECT": "./tsconfig.json"
@@ -51,8 +53,8 @@
     ]
   },
   "prettier": {
-    "printWidth": 120,
     "semi": false,
+    "printWidth": 120,
     "trailingComma": "all",
     "singleQuote": true,
     "arrowParens": "always"
