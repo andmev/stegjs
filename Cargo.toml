@@ -22,13 +22,13 @@ crate-type = ["cdylib"]
 anyhow = "1.0.89"
 clap = { version = "4.5.18", features = ["derive"] }
 colored = "2.1.0"
-regex = "1.10.6"
 image = "0.25.2"
 napi = { version = "2.16.11", default-features = false, features = [
   "napi4",
   "async",
 ] }
 napi-derive = "2.16.12"
+regex = "1.10.6"
 reqwest = { version = "0.12.7", features = ["json", "stream"] }
 tokio = { version = "1.40.0", features = ["full"] }
 url = "2.5.2"
