@@ -1,5 +1,4 @@
 #[deny(clippy::manual_pattern_char_comparison)]
-
 mod checker;
 mod converters;
 mod decode;
