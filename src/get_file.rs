@@ -52,7 +52,8 @@ mod tests {
         let result = by_uri(uri).await;
         assert!(result.is_ok());
 
-        let path = Path::new(&result.unwrap());
+        let binding = result.unwrap();
+        let path = Path::new(&binding);
         assert!(path.exists());
 
         fs::remove_file(path).await.unwrap();
