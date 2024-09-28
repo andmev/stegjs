@@ -18,7 +18,9 @@
     "test": "ava",
     "version": "napi version"
   },
-  "bin": "index.js",
+  "bin": {
+    "stegjs": "bin/stegjs"
+  },
   "files": [
     "index.d.ts",
     "index.js"
@@ -99,6 +101,9 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org",
     "access": "public"
+  },
+  "dependencies": {
+    "commander": "12.1.0"
   },
   "devDependencies": {
     "@napi-rs/cli": "2.18.4",
