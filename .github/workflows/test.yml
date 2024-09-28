@@ -104,6 +104,10 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y pkg-config libudev-dev
+      - name: Install Perl on Windows
+        if: runner.os == 'Windows'
+        run: |
+          choco install strawberryperl -y
       - name: Install Perl Module on Windows
         if: runner.os == 'Windows'
         run: |
@@ -124,6 +128,10 @@ jobs:
             set -e
             corepack enable
             corepack prepare yarn@4.5.0 --activate
+            # Install dependencies for Alpine Linux
+            apk add --no-cache pkgconf libudev-dev perl
+            # Install required Perl module
+            cpan Locale::Maketext::Simple
             ${{ matrix.settings.build }}
       - name: Build
         run: ${{ matrix.settings.build }}
@@ -250,7 +258,8 @@ jobs:
       - name: Test bindings
         run: |
           docker run --rm -v $(pwd):/build -w /build node:${{ matrix.node }}-alpine sh -c "
-            apk add --no-cache libc6-compat
+            apk add --no-cache libc6-compat pkgconf libudev-dev perl
+            cpan Locale::Maketext::Simple
             corepack enable
             corepack prepare yarn@4.5.0 --activate
             yarn install
@@ -349,7 +358,8 @@ jobs:
           options: '--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build'
           run: |
             set -e
-            apk add --no-cache libc6-compat
+            apk add --no-cache libc6-compat pkgconf libudev-dev perl
+            cpan Locale::Maketext::Simple
             corepack enable
             corepack prepare yarn@4.5.0 --activate
             yarn install
