@@ -129,7 +129,7 @@ jobs:
             corepack enable
             corepack prepare yarn@4.5.0 --activate
             # Install dependencies for Alpine Linux
-            apk add --no-cache pkgconf libudev-dev perl
+            apk add --no-cache pkgconf libsystemd-dev perl
             # Install required Perl module
             cpan Locale::Maketext::Simple
             ${{ matrix.settings.build }}
@@ -358,7 +358,7 @@ jobs:
           options: '--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build'
           run: |
             set -e
-            apk add --no-cache libc6-compat pkgconf libudev-dev perl
+            apk add --no-cache libc6-compat pkgconf libsystemd-dev perl
             cpan Locale::Maketext::Simple
             corepack enable
             corepack prepare yarn@4.5.0 --activate
