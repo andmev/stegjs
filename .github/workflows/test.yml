@@ -38,12 +38,15 @@ jobs:
             target: i686-pc-windows-msvc
           - host: ubuntu-latest
             target: x86_64-unknown-linux-gnu
+            setup: |
+              sudo apt-get update
+              sudo apt-get install pkg-config libx11-dev libssl-dev
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
             build: |-
               set -e &&
-              sudo apt-get update &&
-              sudo apt-get install -y pkg-config libssl-dev --fix-missing &&
-              yarn build --target x86_64-unknown-linux-gnu
+              rustup target add x86_64-unknown-linux-gnu &&
+              yarn build --target x86_64-unknown-linux-gnu &&
+              llvm-strip -x *.node
           - host: ubuntu-latest
             target: x86_64-unknown-linux-musl
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
