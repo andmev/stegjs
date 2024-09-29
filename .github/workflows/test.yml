@@ -4,7 +4,6 @@ env:
   APP_NAME: stegjs
   MACOSX_DEPLOYMENT_TARGET: '10.13'
   CARGO_INCREMENTAL: '1'
-  RUST_BACKTRACE: 'full'
   CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG: 'true'
 permissions:
   contents: write
@@ -51,7 +50,10 @@ jobs:
           - host: ubuntu-latest
             target: x86_64-unknown-linux-musl
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
-            build: yarn build --target x86_64-unknown-linux-musl
+            build: |-
+              set -e &&
+              echo RUST_BACKTRACE=full &&
+              yarn build --target x86_64-unknown-linux-musl
           - host: macos-latest
             target: aarch64-apple-darwin
             build: yarn build --target aarch64-apple-darwin
