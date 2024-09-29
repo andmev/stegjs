@@ -31,13 +31,21 @@ jobs:
             target: x86_64-apple-darwin
             build: yarn build --target x86_64-apple-darwin
           - host: windows-latest
-            build: yarn build --target x86_64-pc-windows-msvc
             target: x86_64-pc-windows-msvc
             architecture: x64
+            build: |
+              choco install openssl.light
+              set OPENSSL_LIB_DIR=C:\Program Files\OpenSSL\lib
+              set OPENSSL_INCLUDE_DIR=C:\Program Files\OpenSSL\include
+              yarn build --target x86_64-pc-windows-msvc
           - host: windows-latest
-            build: yarn build --target i686-pc-windows-msvc
             target: i686-pc-windows-msvc
             architecture: x86
+            build: |
+              choco install openssl.light
+              set OPENSSL_LIB_DIR=C:\Program Files\OpenSSL\lib
+              set OPENSSL_INCLUDE_DIR=C:\Program Files\OpenSSL\include
+              yarn build --target i686-pc-windows-msvc
           - host: ubuntu-latest
             target: x86_64-unknown-linux-gnu
             setup: |
@@ -100,13 +108,6 @@ jobs:
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Perl on Windows
-        if: startsWith(matrix.settings.host, 'windows-')
-        run: |
-          choco install strawberryperl
-          cpanm Locale::Maketext::Simple
-          cpanm Params::Check
-          cpanm IPC::Cmd
       - name: Setup node
         uses: actions/setup-node@v4
         if: ${{ !matrix.settings.docker }}
