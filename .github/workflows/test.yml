@@ -77,7 +77,8 @@ jobs:
               sudo apt-get update
               sudo apt-get install libssl-dev gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf -y
             build: |
-              yarn build --target armv7-unknown-linux-gnueabihf
+              export OPENSSLDIR=/usr/local/ssl &&
+              yarn build --target armv7-unknown-linux-gnueabihf &&
               arm-linux-gnueabihf-strip *.node
           - host: ubuntu-latest
             target: aarch64-linux-android
@@ -99,6 +100,13 @@ jobs:
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v4
+      - name: Set up Perl on Windows
+        if: startsWith(matrix.settings.host, 'windows-')
+        run: |
+          choco install strawberryperl
+          cpanm Locale::Maketext::Simple
+          cpanm Params::Check
+          cpanm IPC::Cmd
       - name: Setup node
         uses: actions/setup-node@v4
         if: ${{ !matrix.settings.docker }}
