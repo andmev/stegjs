@@ -32,11 +32,6 @@ jobs:
 #            build: yarn build --target x86_64-apple-darwin
           - host: windows-latest
             target: x86_64-pc-windows-msvc
-            setup: |
-              choco install strawberryperl
-              cpanm Locale::Maketext::Simple
-              cpanm Params::Check
-              cpanm IPC::Cmd
             architecture: x64
             build: |
               choco install openssl.light
@@ -45,11 +40,6 @@ jobs:
               yarn build --target x86_64-pc-windows-msvc
           - host: windows-latest
             target: i686-pc-windows-msvc
-            setup: |
-              choco install strawberryperl
-              cpanm Locale::Maketext::Simple
-              cpanm Params::Check
-              cpanm IPC::Cmd
             architecture: x86
             build: |
               choco install openssl.light
@@ -118,6 +108,12 @@ jobs:
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v4
+      - name: Install packages
+        if: ${{ matrix.runner.docker }}
+        shell: bash
+        run: |
+          apt-get update
+          apt-get install curl llvm-15 clang-15 lld-15 libc++-15-dev libc++abi-15-dev xz-utils rcs git make cmake ninja-build glibc-source pkg-config libssl-dev libfontconfig1-dev libx11-dev libxcomposite-dev libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev libfreetype6-dev -y
       - name: Setup node
         uses: actions/setup-node@v4
         if: ${{ !matrix.settings.docker }}
