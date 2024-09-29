@@ -33,9 +33,11 @@ jobs:
           - host: windows-latest
             build: yarn build --target x86_64-pc-windows-msvc
             target: x86_64-pc-windows-msvc
+            architecture: x64
           - host: windows-latest
             build: yarn build --target i686-pc-windows-msvc
             target: i686-pc-windows-msvc
+            architecture: x86
           - host: ubuntu-latest
             target: x86_64-unknown-linux-gnu
             setup: |
@@ -56,15 +58,27 @@ jobs:
             build: yarn build --target aarch64-apple-darwin
           - host: ubuntu-latest
             target: aarch64-unknown-linux-gnu
+            setup: |
+              sudo apt-get update
+              sudo apt-get install pkg-config libx11-dev libssl-dev
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
-            build: yarn build --target aarch64-unknown-linux-gnu
+            build: >-
+              set -e &&
+              export CC_aarch64_unknown_linux_gnu=aarch64-linux-gnu-gcc &&
+              export CC=aarch64-linux-gnu-gcc &&
+              sudo apt update &&
+              sudo apt install -y gcc-aarch64-linux-gnu &&
+              rustup target add aarch64-unknown-linux-gnu &&
+              yarn build --target aarch64-unknown-linux-gnu &&
+              aarch64-unknown-linux-gnu-strip *.node
           - host: ubuntu-latest
             target: armv7-unknown-linux-gnueabihf
             setup: |
               sudo apt-get update
-              sudo apt-get install gcc-arm-linux-gnueabihf -y
+              sudo apt-get install libssl-dev gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf -y
             build: |
               yarn build --target armv7-unknown-linux-gnueabihf
+              arm-linux-gnueabihf-strip *.node
           - host: ubuntu-latest
             target: aarch64-linux-android
             build: yarn build --target aarch64-linux-android
