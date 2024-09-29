@@ -48,7 +48,6 @@ jobs:
               set -e &&
               sudo apt-get update &&
               sudo apt-get install -y pkg-config libssl-dev --fix-missing &&
-              echo 'OPENSSL_DIR=/usr/local/ssl' >> $GITHUB_ENV &&
               yarn build --target x86_64-unknown-linux-gnu
           - host: ubuntu-latest
             target: x86_64-unknown-linux-musl
