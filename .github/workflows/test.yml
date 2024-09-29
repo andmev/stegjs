@@ -2,9 +2,6 @@ name: Test and Publish
 env:
   DEBUG: napi:*
   APP_NAME: stegjs
-  MACOSX_DEPLOYMENT_TARGET: '10.13'
-  CARGO_INCREMENTAL: '1'
-  CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG: 'true'
 permissions:
   contents: write
   id-token: write
@@ -88,10 +85,6 @@ jobs:
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Perl
-        run: sudo apt-get install perl
-      - name: Install Perl Module
-        run: cpanm Locale::Maketext::Simple
       - name: Setup node
         uses: actions/setup-node@v4
         if: ${{ !matrix.settings.docker }}
