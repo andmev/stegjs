@@ -4,7 +4,7 @@ env:
   APP_NAME: stegjs
   MACOSX_DEPLOYMENT_TARGET: '10.13'
   CARGO_INCREMENTAL: '1'
-  RUST_BACKTRACE: '1'
+  RUST_BACKTRACE: 'full'
 permissions:
   contents: write
   id-token: write
