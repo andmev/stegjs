@@ -338,7 +338,6 @@ jobs:
           yarn config set supportedArchitectures.cpu "arm64"
           yarn config set supportedArchitectures.libc "musl"
           yarn install
-          sudo apt-get update && sudo apt-get install -y pkg-config
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
         with:

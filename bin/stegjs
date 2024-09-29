@@ -80,10 +80,10 @@ outputValue = outputValue || join(process.cwd(), '/out.png')
 if (program.opts()['encode']) {
   encode(imageValue, messageValue, stepValue, outputValue)
     .then(() => console.log('Encoding complete!'))
-    .catch(err => console.error('Encoding error:', err));
+    .catch((err) => console.error('Encoding error:', err))
 }
 if (program.opts()['decode']) {
   decode(imageValue)
     .then(() => console.log('Decoded complete!'))
-    .catch(err => console.error('Decoding error:', err));
+    .catch((err) => console.error('Decoding error:', err))
 }
