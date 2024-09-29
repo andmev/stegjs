@@ -6,6 +6,7 @@ env:
   CARGO_INCREMENTAL: '1'
   RUST_BACKTRACE: 'full'
   CXXFLAGS: '-stdlib=libc++ -L/usr/lib/llvm-18/lib -static'
+  CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG: 'true'
 permissions:
   contents: write
   id-token: write
