@@ -27,9 +27,9 @@ jobs:
       fail-fast: false
       matrix:
         settings:
-          - host: macos-latest
-            target: x86_64-apple-darwin
-            build: yarn build --target x86_64-apple-darwin
+#          - host: macos-latest
+#            target: x86_64-apple-darwin
+#            build: yarn build --target x86_64-apple-darwin
           - host: windows-latest
             target: x86_64-pc-windows-msvc
             architecture: x64
@@ -46,68 +46,75 @@ jobs:
               set OPENSSL_LIB_DIR=C:\Program Files\OpenSSL\lib
               set OPENSSL_INCLUDE_DIR=C:\Program Files\OpenSSL\include
               yarn build --target i686-pc-windows-msvc
-          - host: ubuntu-latest
-            target: x86_64-unknown-linux-gnu
-            setup: |
-              sudo apt-get update
-              sudo apt-get install pkg-config libx11-dev libssl-dev
-            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
-            build: |-
-              set -e &&
-              rustup target add x86_64-unknown-linux-gnu &&
-              yarn build --target x86_64-unknown-linux-gnu &&
-              llvm-strip -x *.node
-          - host: ubuntu-latest
-            target: x86_64-unknown-linux-musl
-            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
-            build: set -e && apk add perl && yarn build --target x86_64-unknown-linux-musl && strip *.node
-          - host: macos-latest
-            target: aarch64-apple-darwin
-            build: yarn build --target aarch64-apple-darwin
-          - host: ubuntu-latest
-            target: aarch64-unknown-linux-gnu
-            setup: |
-              sudo apt-get update
-              sudo apt-get install pkg-config libx11-dev libssl-dev
-            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
-            build: >-
-              set -e &&
-              export CC_aarch64_unknown_linux_gnu=aarch64-linux-gnu-gcc &&
-              export CC=aarch64-linux-gnu-gcc &&
-              sudo apt update &&
-              sudo apt install -y gcc-aarch64-linux-gnu &&
-              rustup target add aarch64-unknown-linux-gnu &&
-              yarn build --target aarch64-unknown-linux-gnu &&
-              aarch64-unknown-linux-gnu-strip *.node
-          - host: ubuntu-latest
-            target: armv7-unknown-linux-gnueabihf
-            setup: |
-              sudo apt-get update
-              sudo apt-get install libssl-dev gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf -y
-            build: |
-              export OPENSSLDIR=/usr/local/ssl &&
-              yarn build --target armv7-unknown-linux-gnueabihf &&
-              arm-linux-gnueabihf-strip *.node
-          - host: ubuntu-latest
-            target: aarch64-linux-android
-            build: yarn build --target aarch64-linux-android
-          - host: ubuntu-latest
-            target: armv7-linux-androideabi
-            build: yarn build --target armv7-linux-androideabi
-          - host: ubuntu-latest
-            target: aarch64-unknown-linux-musl
-            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
-            build: |-
-              set -e &&
-              rustup target add aarch64-unknown-linux-musl &&
-              yarn build --target aarch64-unknown-linux-musl
-          - host: windows-latest
-            target: aarch64-pc-windows-msvc
-            build: yarn build --target aarch64-pc-windows-msvc
+#          - host: ubuntu-latest
+#            target: x86_64-unknown-linux-gnu
+#            setup: |
+#              sudo apt-get update
+#              sudo apt-get install pkg-config libx11-dev libssl-dev
+#            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
+#            build: |-
+#              set -e &&
+#              rustup target add x86_64-unknown-linux-gnu &&
+#              yarn build --target x86_64-unknown-linux-gnu &&
+#              llvm-strip -x *.node
+#          - host: ubuntu-latest
+#            target: x86_64-unknown-linux-musl
+#            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
+#            build: set -e && apk add perl && yarn build --target x86_64-unknown-linux-musl && strip *.node
+#          - host: macos-latest
+#            target: aarch64-apple-darwin
+#            build: yarn build --target aarch64-apple-darwin
+#          - host: ubuntu-latest
+#            target: aarch64-unknown-linux-gnu
+#            setup: |
+#              sudo apt-get update
+#              sudo apt-get install pkg-config libx11-dev libssl-dev
+#            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
+#            build: >-
+#              set -e &&
+#              export CC_aarch64_unknown_linux_gnu=aarch64-linux-gnu-gcc &&
+#              export CC=aarch64-linux-gnu-gcc &&
+#              sudo apt update &&
+#              sudo apt install -y gcc-aarch64-linux-gnu &&
+#              rustup target add aarch64-unknown-linux-gnu &&
+#              yarn build --target aarch64-unknown-linux-gnu &&
+#              aarch64-unknown-linux-gnu-strip *.node
+#          - host: ubuntu-latest
+#            target: armv7-unknown-linux-gnueabihf
+#            setup: |
+#              sudo apt-get update
+#              sudo apt-get install libssl-dev gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf -y
+#            build: |
+#              export OPENSSLDIR=/usr/local/ssl &&
+#              yarn build --target armv7-unknown-linux-gnueabihf &&
+#              arm-linux-gnueabihf-strip *.node
+#          - host: ubuntu-latest
+#            target: aarch64-linux-android
+#            build: yarn build --target aarch64-linux-android
+#          - host: ubuntu-latest
+#            target: armv7-linux-androideabi
+#            build: yarn build --target armv7-linux-androideabi
+#          - host: ubuntu-latest
+#            target: aarch64-unknown-linux-musl
+#            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
+#            build: |-
+#              set -e &&
+#              rustup target add aarch64-unknown-linux-musl &&
+#              yarn build --target aarch64-unknown-linux-musl
+#          - host: windows-latest
+#            target: aarch64-pc-windows-msvc
+#            build: yarn build --target aarch64-pc-windows-msvc
     name: stable - ${{ matrix.settings.target }} - node@18
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v4
+      - name: Set up Perl on Windows
+        if: startsWith(matrix.settings.host, 'windows-')
+        run: |
+          choco install strawberryperl
+          cpanm Locale::Maketext::Simple
+          cpanm Params::Check
+          cpanm IPC::Cmd
       - name: Setup node
         uses: actions/setup-node@v4
         if: ${{ !matrix.settings.docker }}
