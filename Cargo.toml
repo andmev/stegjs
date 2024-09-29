@@ -22,6 +22,7 @@ napi = { version = "2.16.11", default-features = false, features = [
   "async",
 ] }
 napi-derive = "2.16.12"
+openssl = { version = "0.10", features = ["vendored"] }
 regex = "1.10.6"
 reqwest = { version = "0.12.7", features = ["json", "stream"] }
 tokio = { version = "1.40.0", features = ["full"] }
