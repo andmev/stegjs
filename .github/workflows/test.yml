@@ -88,6 +88,10 @@ jobs:
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v4
+      - name: Set up Perl
+        run: sudo apt-get install perl
+      - name: Install Perl Module
+        run: cpanm Locale::Maketext::Simple
       - name: Setup node
         uses: actions/setup-node@v4
         if: ${{ !matrix.settings.docker }}
