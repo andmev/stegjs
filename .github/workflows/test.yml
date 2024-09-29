@@ -4,7 +4,7 @@ env:
   APP_NAME: stegjs
   MACOSX_DEPLOYMENT_TARGET: '10.13'
   CARGO_INCREMENTAL: '1'
-  CXXFLAGS: "-stdlib=libc++ -L/usr/lib/llvm-18/lib -static"
+  RUST_BACKTRACE: '1'
 permissions:
   contents: write
   id-token: write
