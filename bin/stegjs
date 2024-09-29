@@ -78,6 +78,12 @@ outputValue = outputValue || join(process.cwd(), '/out.png')
 
 /** Branching according to the program mode. */
 if (program.opts()['encode']) {
-  await encode(imageValue, messageValue, stepValue, outputValue)
+  encode(imageValue, messageValue, stepValue, outputValue)
+    .then(() => console.log('Encoding complete!'))
+    .catch(err => console.error('Encoding error:', err));
 }
-if (program.opts()['decode']) await decode(imageValue)
+if (program.opts()['decode']) {
+  decode(imageValue)
+    .then(() => console.log('Decoded complete!'))
+    .catch(err => console.error('Decoding error:', err));
+}
