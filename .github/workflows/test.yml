@@ -27,60 +27,59 @@ jobs:
       fail-fast: false
       matrix:
         settings:
-#          - host: macos-latest
-#            target: x86_64-apple-darwin
-#            build: yarn build --target x86_64-apple-darwin
-#          - host: macos-latest
-#            target: aarch64-apple-darwin
-#            build: yarn build --target aarch64-apple-darwin
-#          - host: windows-latest
-#            target: x86_64-pc-windows-msvc
-#            architecture: x64
-#            build: yarn build --target x86_64-pc-windows-msvc
-#          - host: windows-latest
-#            target: i686-pc-windows-msvc
-#            architecture: x86
-#            build: yarn build --target i686-pc-windows-msvc
-#          - host: windows-latest
-#            target: aarch64-pc-windows-msvc
-#            build: yarn build --target aarch64-pc-windows-msvc
-#          - host: ubuntu-latest
-#            target: x86_64-unknown-linux-gnu
-#            setup: |
-#              sudo apt-get update
-#              sudo apt-get install pkg-config libx11-dev libssl-dev
-#            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
-#            build: |-
-#              set -e &&
-#              rustup target add x86_64-unknown-linux-gnu &&
-#              yarn build --target x86_64-unknown-linux-gnu &&
-#              llvm-strip -x *.node
-#          - host: ubuntu-latest
-#            target: x86_64-unknown-linux-musl
-#            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
-#            build: set -e && apk add perl && yarn build --target x86_64-unknown-linux-musl && strip *.node
-#          - host: ubuntu-latest
-#            target: aarch64-unknown-linux-gnu
-#            setup: |
-#              sudo apt-get update
-#              sudo apt-get install pkg-config libx11-dev libssl-dev
-#            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
-#            build: >-
-#              set -e &&
-#              export CC_aarch64_unknown_linux_gnu=aarch64-linux-gnu-gcc &&
-#              export CC=aarch64-linux-gnu-gcc &&
-#              sudo apt update &&
-#              sudo apt install -y gcc-aarch64-linux-gnu &&
-#              rustup target add aarch64-unknown-linux-gnu &&
-#              yarn build --target aarch64-unknown-linux-gnu &&
-#              aarch64-unknown-linux-gnu-strip *.node
+          #          - host: macos-latest
+          #            target: x86_64-apple-darwin
+          #            build: yarn build --target x86_64-apple-darwin
+          #          - host: macos-latest
+          #            target: aarch64-apple-darwin
+          #            build: yarn build --target aarch64-apple-darwin
+          #          - host: windows-latest
+          #            target: x86_64-pc-windows-msvc
+          #            architecture: x64
+          #            build: yarn build --target x86_64-pc-windows-msvc
+          #          - host: windows-latest
+          #            target: i686-pc-windows-msvc
+          #            architecture: x86
+          #            build: yarn build --target i686-pc-windows-msvc
+          #          - host: windows-latest
+          #            target: aarch64-pc-windows-msvc
+          #            build: yarn build --target aarch64-pc-windows-msvc
+          #          - host: ubuntu-latest
+          #            target: x86_64-unknown-linux-gnu
+          #            setup: |
+          #              sudo apt-get update
+          #              sudo apt-get install pkg-config libx11-dev libssl-dev
+          #            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
+          #            build: |-
+          #              set -e &&
+          #              rustup target add x86_64-unknown-linux-gnu &&
+          #              yarn build --target x86_64-unknown-linux-gnu &&
+          #              llvm-strip -x *.node
+          #          - host: ubuntu-latest
+          #            target: x86_64-unknown-linux-musl
+          #            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
+          #            build: set -e && apk add perl && yarn build --target x86_64-unknown-linux-musl && strip *.node
+          #          - host: ubuntu-latest
+          #            target: aarch64-unknown-linux-gnu
+          #            setup: |
+          #              sudo apt-get update
+          #              sudo apt-get install pkg-config libx11-dev libssl-dev
+          #            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
+          #            build: >-
+          #              set -e &&
+          #              export CC_aarch64_unknown_linux_gnu=aarch64-linux-gnu-gcc &&
+          #              export CC=aarch64-linux-gnu-gcc &&
+          #              sudo apt update &&
+          #              sudo apt install -y gcc-aarch64-linux-gnu &&
+          #              rustup target add aarch64-unknown-linux-gnu &&
+          #              yarn build --target aarch64-unknown-linux-gnu &&
+          #              aarch64-unknown-linux-gnu-strip *.node
           - host: ubuntu-latest
             target: armv7-unknown-linux-gnueabihf
             setup: |
               sudo apt-get update
               sudo apt-get install libssl-dev gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf -y
             build: |
-              export OPENSSLDIR=/usr/local/ssl &&
               yarn build --target armv7-unknown-linux-gnueabihf &&
               arm-linux-gnueabihf-strip *.node
           - host: ubuntu-latest
@@ -90,12 +89,12 @@ jobs:
               set -e &&
               rustup target add aarch64-unknown-linux-musl &&
               yarn build --target aarch64-unknown-linux-musl
-#          - host: ubuntu-latest
-#            target: aarch64-linux-android
-#            build: yarn build --target aarch64-linux-android
-#          - host: ubuntu-latest
-#            target: armv7-linux-androideabi
-#            build: yarn build --target armv7-linux-androideabi
+    #          - host: ubuntu-latest
+    #            target: aarch64-linux-android
+    #            build: yarn build --target aarch64-linux-android
+    #          - host: ubuntu-latest
+    #            target: armv7-linux-androideabi
+    #            build: yarn build --target armv7-linux-androideabi
     name: stable - ${{ matrix.settings.target }} - node@18
     runs-on: ${{ matrix.settings.host }}
     steps:
@@ -149,52 +148,52 @@ jobs:
           name: bindings-${{ matrix.settings.target }}
           path: ${{ env.APP_NAME }}.*.node
           if-no-files-found: error
-#  build-freebsd:
-#    runs-on: ubuntu-latest
-#    name: Build FreeBSD
-#    steps:
-#      - uses: actions/checkout@v4
-#      - name: Build
-#        id: build
-#        uses: cross-platform-actions/action@v0.25.0
-#        env:
-#          DEBUG: napi:*
-#          RUSTUP_IO_THREADS: 1
-#        with:
-#          operating_system: freebsd
-#          version: '14.0'
-#          memory: 8G
-#          cpu_count: 3
-#          environment_variables: 'DEBUG RUSTUP_IO_THREADS'
-#          shell: bash
-#          run: |
-#            sudo pkg install -y -f curl node libnghttp2 npm
-#            sudo npm install -g yarn --ignore-scripts
-#            curl https://sh.rustup.rs -sSf --output rustup.sh
-#            sh rustup.sh -y --profile minimal --default-toolchain beta
-#            source "$HOME/.cargo/env"
-#            echo "~~~~ rustc --version ~~~~"
-#            rustc --version
-#            echo "~~~~ node -v ~~~~"
-#            node -v
-#            echo "~~~~ yarn --version ~~~~"
-#            yarn --version
-#            pwd
-#            ls -lah
-#            whoami
-#            env
-#            freebsd-version
-#            yarn install
-#            yarn build
-#            rm -rf node_modules
-#            rm -rf target
-#            rm -rf .yarn/cache
-#      - name: Upload artifact
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: bindings-freebsd
-#          path: ${{ env.APP_NAME }}.*.node
-#          if-no-files-found: error
+  #  build-freebsd:
+  #    runs-on: ubuntu-latest
+  #    name: Build FreeBSD
+  #    steps:
+  #      - uses: actions/checkout@v4
+  #      - name: Build
+  #        id: build
+  #        uses: cross-platform-actions/action@v0.25.0
+  #        env:
+  #          DEBUG: napi:*
+  #          RUSTUP_IO_THREADS: 1
+  #        with:
+  #          operating_system: freebsd
+  #          version: '14.0'
+  #          memory: 8G
+  #          cpu_count: 3
+  #          environment_variables: 'DEBUG RUSTUP_IO_THREADS'
+  #          shell: bash
+  #          run: |
+  #            sudo pkg install -y -f curl node libnghttp2 npm
+  #            sudo npm install -g yarn --ignore-scripts
+  #            curl https://sh.rustup.rs -sSf --output rustup.sh
+  #            sh rustup.sh -y --profile minimal --default-toolchain beta
+  #            source "$HOME/.cargo/env"
+  #            echo "~~~~ rustc --version ~~~~"
+  #            rustc --version
+  #            echo "~~~~ node -v ~~~~"
+  #            node -v
+  #            echo "~~~~ yarn --version ~~~~"
+  #            yarn --version
+  #            pwd
+  #            ls -lah
+  #            whoami
+  #            env
+  #            freebsd-version
+  #            yarn install
+  #            yarn build
+  #            rm -rf node_modules
+  #            rm -rf target
+  #            rm -rf .yarn/cache
+  #      - name: Upload artifact
+  #        uses: actions/upload-artifact@v4
+  #        with:
+  #          name: bindings-freebsd
+  #          path: ${{ env.APP_NAME }}.*.node
+  #          if-no-files-found: error
   test-macOS-windows-binding:
     name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
     needs:
@@ -414,7 +413,7 @@ jobs:
     name: Publish
     runs-on: ubuntu-latest
     needs:
-#      - build-freebsd
+      #      - build-freebsd
       - test-macOS-windows-binding
       - test-linux-x64-gnu-binding
       - test-linux-x64-musl-binding
