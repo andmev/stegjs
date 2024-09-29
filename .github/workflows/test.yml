@@ -80,14 +80,18 @@ jobs:
               RUST_BACKTRACE: 1
               OPENSSL_DIR: /usr/arm-linux-gnueabihf
             setup: |
-              sudo dpkg --add-architecture armhf
-              sudo sed -i 's|http://|https://|g' /etc/apt/sources.list # Ensure repositories use HTTPS
               sudo apt-get update
-              sudo apt-get install libssl-dev:armhf gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf -y
-              export OPENSSL_DIR=/usr/arm-linux-gnueabihf
-            build: |
+              sudo apt-get install pkg-config libx11-dev libssl-dev
+            build: >-
+              set -e &&
+              export CC_aarch64_unknown_linux_gnu=aarch64-linux-gnu-gcc &&
+              export CC=aarch64-linux-gnu-gcc &&
+              sudo apt update &&
+              sudo apt install -y gcc-aarch64-linux-gnu &&
+              rustup target add aarch64-unknown-linux-gnu &&
               yarn build --target armv7-unknown-linux-gnueabihf &&
               arm-linux-gnueabihf-strip *.node
+
           # - host: ubuntu-latest
           #   target: aarch64-unknown-linux-musl
           #   docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
