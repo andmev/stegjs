@@ -79,6 +79,7 @@ jobs:
             setup: |
               sudo apt-get update
               sudo apt-get install libssl-dev gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf -y
+              export OPENSSL_DIR=/usr
             build: |
               yarn build --target armv7-unknown-linux-gnueabihf &&
               arm-linux-gnueabihf-strip *.node
@@ -88,6 +89,7 @@ jobs:
             build: |-
               set -e &&
               rustup target add aarch64-unknown-linux-musl &&
+              export OPENSSL_DIR=/usr &&
               yarn build --target aarch64-unknown-linux-musl
     #          - host: ubuntu-latest
     #            target: aarch64-linux-android
