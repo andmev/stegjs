@@ -84,14 +84,11 @@ jobs:
               sudo apt-get install pkg-config libx11-dev libssl-dev
             build: >-
               set -e &&
-              export CC_aarch64_unknown_linux_gnu=aarch64-linux-gnu-gcc &&
-              export CC=aarch64-linux-gnu-gcc &&
               sudo apt update &&
-              sudo apt install -y gcc-aarch64-linux-gnu &&
-              rustup target add aarch64-unknown-linux-gnu &&
+              sudo apt install -y gcc-arm-linux-gnueabihf &&
+              rustup target add armv7-unknown-linux-gnueabihf &&
               yarn build --target armv7-unknown-linux-gnueabihf &&
               arm-linux-gnueabihf-strip *.node
-
           # - host: ubuntu-latest
           #   target: aarch64-unknown-linux-musl
           #   docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
