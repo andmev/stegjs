@@ -45,19 +45,15 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
             build: |-
               set -e &&
+#              install cargo package openssl = { version = "0.10", features = ["vendored"] } &&
+              cargo install openssl &&
               sudo apt-get update &&
               sudo apt-get install -y pkg-config libssl-dev --fix-missing &&
               yarn build --target x86_64-unknown-linux-gnu
           - host: ubuntu-latest
             target: x86_64-unknown-linux-musl
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
-            build: |-
-              set -e &&
-              export RUST_BACKTRACE=full &&
-              apk update &&
-              apk add pkgconfig libressl-dev --no-cache &&
-              export CXXFLAGS='-stdlib=libc++ -L/usr/lib/llvm-18/lib -static' &&
-              yarn build --target x86_64-unknown-linux-musl
+            build: yarn build --target x86_64-unknown-linux-musl
           - host: macos-latest
             target: aarch64-apple-darwin
             build: yarn build --target aarch64-apple-darwin
