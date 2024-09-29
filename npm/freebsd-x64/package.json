@@ -1,18 +1,15 @@
 {
-  "name": "stegjs-linux-x64-gnu",
+  "name": "stegjs-freebsd-x64",
   "version": "3.0.0",
   "os": [
-    "linux"
+    "freebsd"
   ],
   "cpu": [
     "x64"
   ],
-  "libc": [
-    "glibc"
-  ],
-  "main": "stegjs.linux-x64-gnu.node",
+  "main": "stegjs.freebsd-x64.node",
   "files": [
-    "stegjs.linux-x64-gnu.node"
+    "stegjs.freebsd-x64.node"
   ],
   "description": "Template project for writing node package with napi-rs",
   "keywords": [

@@ -1,18 +1,15 @@
 {
-  "name": "stegjs-linux-x64-gnu",
+  "name": "stegjs-android-arm-eabi",
   "version": "3.0.0",
   "os": [
-    "linux"
+    "android"
   ],
   "cpu": [
-    "x64"
+    "arm"
   ],
-  "libc": [
-    "glibc"
-  ],
-  "main": "stegjs.linux-x64-gnu.node",
+  "main": "stegjs.android-arm-eabi.node",
   "files": [
-    "stegjs.linux-x64-gnu.node"
+    "stegjs.android-arm-eabi.node"
   ],
   "description": "Template project for writing node package with napi-rs",
   "keywords": [

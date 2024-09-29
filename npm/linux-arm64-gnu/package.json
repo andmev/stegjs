@@ -1,21 +1,35 @@
 {
   "name": "stegjs-linux-arm64-gnu",
-  "version": "3.0.0-alpha.0",
+  "version": "3.0.0",
   "os": [
     "linux"
   ],
   "cpu": [
     "arm64"
   ],
+  "libc": [
+    "glibc"
+  ],
   "main": "stegjs.linux-arm64-gnu.node",
   "files": [
     "stegjs.linux-arm64-gnu.node"
+  ],
+  "description": "Template project for writing node package with napi-rs",
+  "keywords": [
+    "napi-rs",
+    "NAPI",
+    "N-API",
+    "Rust",
+    "node-addon",
+    "node-addon-api"
   ],
   "license": "MIT",
   "engines": {
     "node": ">= 10"
   },
-  "libc": [
-    "glibc"
-  ]
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "repository": "git@github.com:napi-rs/stegjs.git"
 }

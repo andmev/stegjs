@@ -1,18 +1,15 @@
 {
-  "name": "stegjs-linux-x64-gnu",
+  "name": "stegjs-linux-arm-gnueabihf",
   "version": "3.0.0",
   "os": [
     "linux"
   ],
   "cpu": [
-    "x64"
+    "arm"
   ],
-  "libc": [
-    "glibc"
-  ],
-  "main": "stegjs.linux-x64-gnu.node",
+  "main": "stegjs.linux-arm-gnueabihf.node",
   "files": [
-    "stegjs.linux-x64-gnu.node"
+    "stegjs.linux-arm-gnueabihf.node"
   ],
   "description": "Template project for writing node package with napi-rs",
   "keywords": [
