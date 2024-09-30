@@ -99,6 +99,10 @@ jobs:
         with:
           node-version: 20
           cache: yarn
+      - name: Install Perl
+        uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: '5.30.0'
       - name: Install Perl Modules
         if: matrix.settings.host == 'windows-latest'
         run: |
