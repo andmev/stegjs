@@ -78,8 +78,7 @@ jobs:
             target: armv7-unknown-linux-gnueabihf
             setup: |
               sudo apt-get update
-              sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf -y
-            # Use napi to build cli binary here to use zig as linker
+              sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf libatomic1 -y
             build: |
               yarn napi build --release --target armv7-unknown-linux-gnueabihf --zig --zig-link-only
               yarn build --target armv7-unknown-linux-gnueabihf --cargo-flags='--no-default-features'
