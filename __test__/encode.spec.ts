@@ -1,11 +1,13 @@
-import fs from 'node:fs'
-import test from 'ava'
+import test from 'ava';
+import fs from 'node:fs';
+import path from 'path';
 
-import { encode } from '../index.js'
+import { encode } from '../index.js';
 
-const dirname = new URL('.', import.meta.url).pathname
+const dirname = path.join(new URL('.', import.meta.url).pathname);
 
 test.afterEach(() => {
+  console.log('dirname', dirname);
   const output = dirname + 'output.png'
   if (fs.existsSync(output)) {
     fs.unlinkSync(output)

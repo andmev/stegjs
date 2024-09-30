@@ -1,8 +1,9 @@
-import test from 'ava'
+import test from 'ava';
+import path from 'path';
 
-import { decode } from '../index.js'
+import { decode } from '../index.js';
 
-const dirname = new URL('.', import.meta.url).pathname
+const dirname = path.join(new URL('.', import.meta.url).pathname);
 
 test('decode', async (t) => {
   await decode(dirname + 'decode.png')
