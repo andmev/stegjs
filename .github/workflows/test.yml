@@ -37,10 +37,9 @@ jobs:
             setup: |
               git clone https://github.com/microsoft/vcpkg.git
               ./vcpkg/bootstrap-vcpkg.sh
-              ./vcpkg/vcpkg install openssl-windows:x64-windows
-              ./vcpkg/vcpkg install openssl:x64-windows-static
+              ./vcpkg/vcpkg install openssl:x64-windows
               ./vcpkg/vcpkg install pkgconfiglite:x64-windows
-              ./vcpkg/vcpkg install integrate install
+              ./vcpkg/vcpkg integrate install
               set VCPKGRS_DYNAMIC=1
             target: x86_64-pc-windows-msvc
             architecture: x64
