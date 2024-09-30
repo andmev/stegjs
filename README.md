@@ -26,17 +26,17 @@ $ stegjs --help
 
     -h, --help     output usage information
     -V, --version  output the version number
-    -e, --encode   Change program mode to encode file.
+    -e, --encode   Change program mode to encode file
     -d, --decode   Change program mode to decode file
 ```
 
 Syntax information:
 
 ```
-[mode]		one of the two modes;
-[message]	the message you want to encrypt;
-[step]		pattern of the distribution message bits in the alpha channel of the image;
-[output]	path where to save the image with the encoded message.
+[mode]		one of the two modes
+[message]	the message you want to encrypt
+[step]		pattern of the distribution message bits in the alpha channel of the image
+[output]	path where to save the image with the encoded message
 ```
 
 ## Examples
