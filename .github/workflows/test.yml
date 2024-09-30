@@ -103,6 +103,10 @@ jobs:
         uses: shogo82148/actions-setup-perl@v1
         with:
           perl-version: '5.30.0'
+      - name: Install Visual Studio Build Tools
+        uses: microsoft/setup-msbuild@v1.1
+        with:
+          vs-version: 'latest'
       - name: Cache Perl Modules
         uses: actions/cache@v4
         with:
