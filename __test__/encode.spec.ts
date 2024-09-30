@@ -1,12 +1,12 @@
-import test from 'ava';
-import fs from 'node:fs';
-import path from 'path';
+import test from 'ava'
+import fs from 'node:fs'
+import path from 'path'
 
-import { encode } from '../index.js';
+import { encode } from '../index.js'
 
-const dirname = path.join(process.cwd(), '__test__');
-const input = path.join(dirname, 'encode.png');
-const output = path.join(dirname, 'output.png');
+const dirname = path.join(process.cwd(), '__test__')
+const input = path.join(dirname, 'encode.png')
+const output = path.join(dirname, 'output.png')
 
 test.afterEach(() => {
   if (fs.existsSync(output)) {

@@ -1,7 +1,7 @@
-import test from 'ava';
-import path from 'path';
+import test from 'ava'
+import path from 'path'
 
-import { decode } from '../index.js';
+import { decode } from '../index.js'
 
 test('decode', async (t) => {
   await decode(path.join(process.cwd(), '__test__', 'decode.png'))
