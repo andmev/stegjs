@@ -1,5 +1,5 @@
 {
-  "name": "stegjs-win32-ia32-msvc",
+  "name": "@napi-rs/stegjs-win32-ia32-msvc",
   "version": "3.0.0",
   "os": [
     "win32"

@@ -1,5 +1,5 @@
 {
-  "name": "stegjs-linux-arm-gnueabihf",
+  "name": "@napi-rs/stegjs-linux-arm-gnueabihf",
   "version": "3.0.0",
   "os": [
     "linux"

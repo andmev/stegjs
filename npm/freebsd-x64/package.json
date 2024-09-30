@@ -1,5 +1,5 @@
 {
-  "name": "stegjs-freebsd-x64",
+  "name": "@napi-rs/stegjs-freebsd-x64",
   "version": "3.0.0",
   "os": [
     "freebsd"

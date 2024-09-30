@@ -1,5 +1,5 @@
 {
-  "name": "stegjs-linux-arm64-musl",
+  "name": "@napi-rs/stegjs-linux-arm64-musl",
   "version": "3.0.0",
   "os": [
     "linux"

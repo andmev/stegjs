@@ -1,5 +1,5 @@
 {
-  "name": "stegjs-linux-x64-gnu",
+  "name": "@napi-rs/stegjs-linux-x64-gnu",
   "version": "3.0.0",
   "os": [
     "linux"

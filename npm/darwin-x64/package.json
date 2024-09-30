@@ -1,5 +1,5 @@
 {
-  "name": "stegjs-darwin-x64",
+  "name": "@napi-rs/stegjs-darwin-x64",
   "version": "3.0.0",
   "os": [
     "darwin"
