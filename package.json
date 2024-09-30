@@ -17,7 +17,9 @@
     "test": "ava",
     "version": "napi version"
   },
-  "bin": "bin/stegjs",
+  "bin": {
+    "stegjs": "bin/stegjs"
+  },
   "files": [
     "index.d.ts",
     "index.js"
