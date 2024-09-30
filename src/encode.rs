@@ -128,3 +128,42 @@ fn encode_image(file_path: &str, msg: &str, step: &str, out: &str) -> Result<(),
 
   Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+  use super::*;
+  use image::{GenericImageView, Rgba, RgbaImage};
+  use tempfile::NamedTempFile;
+
+  #[tokio::test]
+  async fn test_encode() {
+    let temp_in = NamedTempFile::new().unwrap();
+    let temp_out = NamedTempFile::new().unwrap();
+
+    // Create a test image
+    let img = RgbaImage::from_fn(100, 100, |_, _| Rgba([255, 255, 255, 255]));
+    img
+      .save(temp_in.path().with_extension("png"))
+      .expect("Failed to save input image");
+
+    let test_message = "Test message";
+
+    // Encode the message
+    encode_rs(
+      temp_in.path().with_extension("png").to_str().unwrap(),
+      test_message,
+      "1x1",
+      temp_out.path().with_extension("png").to_str().unwrap(),
+    )
+    .await
+    .expect("Failed to encode message");
+
+    // Load the encoded image
+    let encoded_img = image::open(temp_out.path().with_extension("png")).unwrap();
+
+    // Verify that the image was saved correctly
+    assert_eq!(encoded_img.dimensions(), (100, 100));
+
+    println!("Encoding test successful.");
+  }
+}

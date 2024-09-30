@@ -36,3 +36,45 @@ pub fn is_right_step(step: &str) -> Result<(String, String), &'static str> {
     Err("Wrong step input. Check help!")
   }
 }
+
+#[cfg(test)]
+mod tests {
+  use super::*;
+
+  #[test]
+  fn test_is_png() {
+    assert!(is_png("image.png"));
+    assert!(!is_png("image.jpg"));
+  }
+
+  #[test]
+  fn test_is_uri() {
+    assert!(is_uri("http://example.com"));
+    assert!(is_uri("https://example.com"));
+    assert!(!is_uri("ftp://example.com"));
+    assert!(!is_uri("not a uri"));
+  }
+
+  #[tokio::test]
+  async fn test_has_access() {
+    let result = has_access("Cargo.toml").await;
+    assert!(result.is_ok());
+
+    let result = has_access("nonexistent_file.png").await;
+    assert!(result.is_err());
+  }
+
+  #[test]
+  fn test_is_right_step() {
+    assert_eq!(
+      is_right_step("10x20").unwrap(),
+      ("10".to_string(), "20".to_string())
+    );
+    assert_eq!(
+      is_right_step("10х20").unwrap(),
+      ("10".to_string(), "20".to_string())
+    );
+    assert!(is_right_step("10x").is_err());
+    assert!(is_right_step("x20").is_err());
+  }
+}

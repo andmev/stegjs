@@ -125,3 +125,50 @@ fn decode_image(file_path: &str) -> Result<(), Box<dyn Error>> {
 
   Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+  use super::*;
+  use crate::encode_rs;
+  use image::{GenericImageView, Rgba, RgbaImage};
+  use tempfile::NamedTempFile;
+
+  #[tokio::test]
+  async fn test_decode() {
+    let temp_in = NamedTempFile::new().unwrap();
+    let temp_out = NamedTempFile::new().unwrap();
+
+    // Create a test image
+    let img = RgbaImage::from_fn(100, 100, |_, _| Rgba([255, 255, 255, 255]));
+    img
+      .save(temp_in.path().with_extension("png"))
+      .expect("Failed to save input image");
+
+    let test_message = "Test message";
+
+    // Encode the message
+    encode_rs(
+      temp_in.path().with_extension("png").to_str().unwrap(),
+      test_message,
+      "1x1",
+      temp_out.path().with_extension("png").to_str().unwrap(),
+    )
+    .await
+    .expect("Failed to encode message");
+
+    // Print the contents of the encoded image
+    let encoded_img = image::open(temp_out.path().with_extension("png")).unwrap();
+    println!("Encoded image dimensions: {:?}", encoded_img.dimensions());
+
+    // Decode the message
+    let result = decode_rs(temp_out.path().with_extension("png").to_str().unwrap()).await;
+
+    match result {
+      Ok(_) => println!("Decoding successful"),
+      Err(e) => {
+        println!("Decoding failed: {:?}", e);
+        panic!("Decoding failed: {:?}", e);
+      }
+    }
+  }
+}

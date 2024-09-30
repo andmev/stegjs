@@ -39,3 +39,42 @@ pub fn meta_to_obj(s: &str) -> Result<(String, String, String), &'static str> {
     Err("Input string does not contain exactly two '|' separators")
   }
 }
+
+#[cfg(test)]
+mod tests {
+  use super::*;
+
+  #[test]
+  fn test_string_to_bits() {
+    let s = "A";
+    let bits = string_to_bits(s);
+    assert_eq!(
+      bits,
+      vec![false, true, false, false, false, false, false, true]
+    );
+  }
+
+  #[test]
+  fn test_bits_to_string() {
+    let bits = vec![false, true, false, false, false, false, false, true];
+    let s = bits_to_string(&bits).unwrap();
+    assert_eq!(s, "A");
+  }
+
+  #[test]
+  fn test_meta_to_obj_success() {
+    let s = "foo|bar|baz";
+    let obj = meta_to_obj(s).unwrap();
+    assert_eq!(
+      obj,
+      ("foo".to_string(), "bar".to_string(), "baz".to_string())
+    );
+  }
+
+  #[test]
+  fn test_meta_to_obj_failure() {
+    let s = "foo|bar";
+    let result = meta_to_obj(s);
+    assert!(result.is_err());
+  }
+}
