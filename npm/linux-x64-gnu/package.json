@@ -31,5 +31,5 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "repository": "git@github.com:napi-rs/stegjs.git"
+  "repository": "git@github.com:andmev/stegjs.git"
 }
