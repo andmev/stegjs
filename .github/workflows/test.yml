@@ -35,7 +35,10 @@ jobs:
           #            build: yarn build --target aarch64-apple-darwin
           - host: windows-latest
             setup: |
-              choco install openssl
+              # remove openssl from Cargo.toml
+              sed -i 's/openssl = "0.10.51"/openssl = { version = "0.10.51", features = ["vendored"] }/g' Cargo.toml
+              # remove pkg-config from Cargo.toml
+              # sed -i 's/pkg-config = "0.3.26"/pkg-config = { version = "0.3.26", features = ["vendored"] }/g' Cargo.toml
             target: x86_64-pc-windows-msvc
             architecture: x64
             build: yarn build --target x86_64-pc-windows-msvc
