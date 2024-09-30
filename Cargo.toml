@@ -17,11 +17,11 @@ crate-type = ["cdylib"]
 # Default enable napi4 feature, see https://nodejs.org/api/n-api.html#node-api-version-matrix
 clap = { version = "4.5.18", features = ["derive"] }
 image = "0.25.2"
-napi = { version = "3.0.0-alpha.12", default-features = false, features = [
+napi = { version = "2.16.11", default-features = false, features = [
   "napi4",
   "async",
 ] }
-napi-derive = "3.0.0-alpha.12"
+napi-derive = "2.16.12"
 openssl = { version = "0.10.66", features = ["vendored"] }
 regex = "1.11.0"
 reqwest = { version = "0.12.7", features = ["json", "stream"] }
