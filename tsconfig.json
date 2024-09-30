@@ -1,28 +1,14 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
-    "lib": ["es6"],
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "outDir": "lib",
-//    "rootDir": "src",
+    "target": "ESNext",
     "strict": true,
-    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "module": "CommonJS",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "resolveJsonModule": true,
-    "typeRoots": ["./node_modules/@types"],
-    "types": ["node", "node-fetch", "pngjs", "@types/jest"],
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["src"],
-  "exclude": ["src/**/*.spec.ts"]
+  "include": ["."],
+  "exclude": ["node_modules", "bench", "__test__"]
 }

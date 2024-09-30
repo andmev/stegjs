@@ -1,31 +1,83 @@
 {
   "name": "stegjs",
-  "version": "2.0.7",
+  "version": "3.0.0",
   "description": "Encrypt message to PNG image.",
-  "main": "lib/src/index.js",
-  "types": "lib/src",
+  "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
-    "lint": "eslint . --ext .ts",
-    "build": "rimraf ./lib && tsc -p . --sourcemap",
-    "prettier-format": "run-script-os",
-    "prettier-format:win32": "prettier --config .prettierrc \"./src/**/*.ts\" --write",
-    "prettier-format:darwin:linux": "prettier --config .prettierrc 'src/**/*.ts' --write",
-    "prettier-format:default": "prettier --config .prettierrc 'src/**/*.ts' --write",
-    "prettier-watch": "run-script-os",
-    "prettier-watch:win32": "onchange \"src/**/*.ts\" -- prettier --write {{changed}}",
-    "prettier-watch:darwin:linux": "onchange 'src/**/*.ts' -- prettier --write {{changed}}",
-    "prettier-watch:default": "onchange 'src/**/*.ts' -- prettier --write {{changed}}",
-    "test": "jest --coverage",
-    "test:dev": "jest --watchAll --coverage --detectOpenHandles"
+    "artifacts": "napi artifacts",
+    "build": "napi build --platform --release",
+    "build:debug": "napi build --platform",
+    "format": "run-p format:prettier format:rs format:toml",
+    "format:prettier": "prettier . -w",
+    "format:toml": "taplo format",
+    "format:rs": "cargo fmt",
+    "lint": "oxlint .",
+    "prepublishOnly": "napi prepublish -t npm",
+    "test": "ava",
+    "version": "napi version"
   },
-  "bin": {
-    "stegjs": "lib/src/index.js"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run test && npm run prettier-format && npm run lint"
+  "bin": "bin/stegjs",
+  "files": [
+    "index.d.ts",
+    "index.js"
+  ],
+  "napi": {
+    "name": "stegjs",
+    "triples": {
+      "defaults": true,
+      "additional": [
+        "x86_64-unknown-linux-musl",
+        "aarch64-unknown-linux-gnu",
+        "i686-pc-windows-msvc",
+        "armv7-unknown-linux-gnueabihf",
+        "aarch64-apple-darwin",
+        "aarch64-linux-android",
+        "x86_64-unknown-freebsd",
+        "aarch64-unknown-linux-musl",
+        "aarch64-pc-windows-msvc",
+        "armv7-linux-androideabi"
+      ]
     }
   },
+  "ava": {
+    "extensions": {
+      "ts": "module"
+    },
+    "timeout": "2m",
+    "concurrency": 4,
+    "failFast": true,
+    "workerThreads": false,
+    "environmentVariables": {
+      "TS_NODE_PROJECT": "./tsconfig.json"
+    },
+    "nodeArguments": [
+      "--import",
+      "@swc-node/register/esm-register"
+    ]
+  },
+  "prettier": {
+    "semi": false,
+    "printWidth": 120,
+    "trailingComma": "all",
+    "singleQuote": true,
+    "arrowParens": "always"
+  },
+  "engines": {
+    "node": ">= 10",
+    "npm": ">= 6",
+    "yarn": ">= 1.22"
+  },
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
+  "cpu": [
+    "x64",
+    "arm",
+    "arm64"
+  ],
   "keywords": [
     "steganography",
     "image",
@@ -39,19 +91,6 @@
     "bit"
   ],
   "author": "Andrey Medvedev <a.medvedev@me.com> (https://github.com/andmev/)",
-  "files": [
-    "bin/",
-    "app/",
-    "lib/",
-    "dist/",
-    "src/",
-    "resources/",
-    "menu/",
-    "scripts/",
-    "build/",
-    "cli.js",
-    "index.js"
-  ],
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/andmev/stegjs.git"
@@ -62,33 +101,37 @@
   "homepage": "https://github.com/andmev/stegjs#readme",
   "license": "MIT",
   "publishConfig": {
-    "registry": "https://registry.npmjs.org"
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
   },
   "dependencies": {
-    "chalk": "^4.1.2",
-    "commander": "^9.5.0",
-    "node-fetch": "^2.7.0",
-    "pngjs": "^6.0.0",
-    "typescript": "^4.9.5"
+    "commander": "12.1.0"
   },
   "devDependencies": {
-    "@types/jest": "^28.1.8",
-    "@types/node": "^18.19.53",
-    "@types/node-fetch": "^2.6.11",
-    "@types/pngjs": "^6.0.5",
-    "@typescript-eslint/eslint-plugin": "^5.62.0",
-    "@typescript-eslint/parser": "^5.62.0",
-    "eslint": "^8.57.1",
-    "eslint-config-prettier": "^8.10.0",
-    "eslint-plugin-jest": "^26.9.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "husky": "^8.0.3",
-    "jest": "^28.1.3",
-    "onchange": "^7.1.0",
-    "prettier": "^2.8.8",
-    "rimraf": "^3.0.2",
-    "run-script-os": "^1.1.6",
-    "ts-jest": "^28.0.8",
-    "ts-node": "^10.9.2"
-  }
+    "@napi-rs/cli": "2.18.4",
+    "@swc-node/register": "1.10.9",
+    "@swc/core": "1.7.26",
+    "@taplo/cli": "0.7.0",
+    "@types/node": "22.7.4",
+    "ava": "6.1.3",
+    "chalk": "5.3.0",
+    "husky": "9.1.6",
+    "lint-staged": "15.2.10",
+    "npm-run-all2": "6.2.3",
+    "oxlint": "0.9.9",
+    "prettier": "3.3.3",
+    "typescript": "5.6.2"
+  },
+  "lint-staged": {
+    "*.@(js|ts|tsx)": [
+      "oxlint --fix"
+    ],
+    "*.@(js|ts|tsx|yml|yaml|md|json)": [
+      "prettier --write"
+    ],
+    "*.toml": [
+      "taplo format"
+    ]
+  },
+  "packageManager": "yarn@4.5.0+sha512.837566d24eec14ec0f5f1411adb544e892b3454255e61fdef8fd05f3429480102806bac7446bc9daff3896b01ae4b62d00096c7e989f1596f2af10b927532f39"
 }
