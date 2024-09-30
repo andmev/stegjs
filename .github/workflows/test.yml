@@ -81,9 +81,8 @@ jobs:
               sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf -y
             # Use napi to build cli binary here to use zig as linker
             build: |
-              yarn napi build --bin swc --release --target armv7-unknown-linux-gnueabihf --cargo-cwd ./bindings/swc_cli --cargo-name swc --zig --zig-link-only
-              chmod +x ./swc
-              yarn build --target armv7-unknown-linux-gnueabihf --cargo-flags='--no-default-features --features swc_v1'
+              yarn napi build --release --target armv7-unknown-linux-gnueabihf --zig --zig-link-only
+              yarn build --target armv7-unknown-linux-gnueabihf --cargo-flags='--no-default-features'
               arm-linux-gnueabihf-strip swc.linux-arm-gnueabihf.node
           # - host: ubuntu-latest
           #   target: aarch64-unknown-linux-musl
