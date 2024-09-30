@@ -36,7 +36,8 @@ jobs:
           - host: windows-latest
             target: x86_64-pc-windows-msvc
             setup: |
-              choco upgrade llvm
+              choco install openssl.light
+              choco install pkgconfiglite
             build: yarn build --target x86_64-pc-windows-msvc
             downloadTarget: ''
           - host: windows-latest
