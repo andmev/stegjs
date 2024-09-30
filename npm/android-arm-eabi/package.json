@@ -1,5 +1,5 @@
 {
-  "name": "@napi-rs/stegjs-android-arm-eabi",
+  "name": "@andmev/stegjs-android-arm-eabi",
   "version": "3.0.0",
   "os": [
     "android"
