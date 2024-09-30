@@ -4,20 +4,20 @@ import path from 'path';
 
 import { encode } from '../index.js';
 
-const dirname = path.join(new URL('.', import.meta.url).pathname);
+const dirname = path.join(process.cwd(), '__test__');
+const input = path.join(dirname, 'encode.png');
+const output = path.join(dirname, 'output.png');
 
 test.afterEach(() => {
-  console.log('dirname', dirname);
-  const output = dirname + 'output.png'
   if (fs.existsSync(output)) {
     fs.unlinkSync(output)
   }
 })
 
 test('encode', async (t) => {
-  await encode(dirname + 'encode.png', 'some-key', '1x1', dirname + 'output.png')
+  await encode(input, 'some-key', '1x1', output)
   t.timeout(10000, 'make sure the test is not timeout')
-  t.is(fs.existsSync(dirname + 'output.png'), true)
+  t.is(fs.existsSync(output), true)
 })
 
 test('encode fails if image not exist', async (t) => {

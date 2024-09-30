@@ -3,10 +3,8 @@ import path from 'path';
 
 import { decode } from '../index.js';
 
-const dirname = path.join(new URL('.', import.meta.url).pathname);
-
 test('decode', async (t) => {
-  await decode(dirname + 'decode.png')
+  await decode(path.join(process.cwd(), '__test__', 'decode.png'))
   t.pass()
 })
 
