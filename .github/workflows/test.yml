@@ -103,12 +103,21 @@ jobs:
         uses: shogo82148/actions-setup-perl@v1
         with:
           perl-version: '5.30.0'
+      - name: Cache Perl Modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.cpan
+          key: perl-modules-${{ matrix.settings.host }}
+          restore-keys: |
+            perl-modules-
+      - name: Install cpanminus
+        if: matrix.settings.host == 'windows-latest'
+        run: |
+          cpan App::cpanminus
       - name: Install Perl Modules
         if: matrix.settings.host == 'windows-latest'
         run: |
-          cpan install Locale::Maketext::Simple
-          cpan install Params::Check
-          cpan install IPC::Cmd
+          cpanm Locale::Maketext::Simple Params::Check IPC::Cmd Text::Template
       - name: Install
         uses: dtolnay/rust-toolchain@stable
         if: ${{ !matrix.settings.docker }}
@@ -152,6 +161,13 @@ jobs:
           name: bindings-${{ matrix.settings.target }}
           path: ${{ env.APP_NAME }}.*.node
           if-no-files-found: error
+      - name: Verify Perl Installation
+        if: matrix.settings.host == 'windows-latest'
+        run: perl -v
+      - name: Enable Verbose Logging
+        if: matrix.settings.host == 'windows-latest'
+        run: |
+          set -x
   #  build-freebsd:
   #    runs-on: ubuntu-latest
   #    name: Build FreeBSD
