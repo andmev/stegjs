@@ -107,6 +107,8 @@ jobs:
         if: matrix.settings.host == 'windows-latest'
         run: |
           cpan install Locale::Maketext::Simple
+          cpan install Params::Check
+          cpan install IPC::Cmd
       - name: Install
         uses: dtolnay/rust-toolchain@stable
         if: ${{ !matrix.settings.docker }}
