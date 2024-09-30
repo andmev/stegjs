@@ -77,16 +77,11 @@ jobs:
           - host: ubuntu-latest
             target: armv7-unknown-linux-gnueabihf
             env:
-              RUST_BACKTRACE: 1
-              OPENSSL_DIR: /usr/arm-linux-gnueabihf
-            setup: |
-              sudo apt-get update
-              sudo apt-get install pkg-config libx11-dev libssl-dev
+              RUST_BACKTRACE: full
             build: >-
               set -e &&
               sudo apt update &&
-              sudo apt install -y gcc-arm-linux-gnueabihf &&
-              rustup target add armv7-unknown-linux-gnueabihf &&
+              sudo apt-get install pkg-config libx11-dev libssl-dev -y &&
               yarn build --target armv7-unknown-linux-gnueabihf &&
               arm-linux-gnueabihf-strip *.node
           # - host: ubuntu-latest
