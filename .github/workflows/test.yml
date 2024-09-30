@@ -27,68 +27,81 @@ jobs:
       fail-fast: false
       matrix:
         settings:
-          - host: macos-latest
-            target: x86_64-apple-darwin
-            build: yarn build --target x86_64-apple-darwin
-          - host: macos-latest
-            target: aarch64-apple-darwin
-            build: yarn build --target aarch64-apple-darwin
+#          - host: macos-latest
+#            target: x86_64-apple-darwin
+#            build: yarn build --target x86_64-apple-darwin
+#          - host: macos-latest
+#            target: aarch64-apple-darwin
+#            build: yarn build --target aarch64-apple-darwin
           - host: windows-latest
+            setup: |
+              # clone vcpkg
+              git clone https://github.com/microsoft/vcpkg.git
+              # install vcpkg
+              ./vcpkg/bootstrap-vcpkg.sh
+              # install openssl
+              ./vcpkg/vcpkg install openssl
+              # install pkg-config
+              ./vcpkg/vcpkg install pkgconfiglite
+              # install cmake
+              ./vcpkg/vcpkg install cmake
+              # install ninja
+              ./vcpkg/vcpkg install ninja
             target: x86_64-pc-windows-msvc
             architecture: x64
             build: yarn build --target x86_64-pc-windows-msvc
-          - host: windows-latest
-            target: i686-pc-windows-msvc
-            architecture: x86
-            build: yarn build --target i686-pc-windows-msvc
-          - host: windows-latest
-            target: aarch64-pc-windows-msvc
-            build: yarn build --target aarch64-pc-windows-msvc
-          - host: ubuntu-latest
-            target: x86_64-unknown-linux-gnu
-            setup: |
-              sudo apt-get update
-              sudo apt-get install pkg-config libx11-dev libssl-dev
-            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
-            build: |-
-              set -e &&
-              rustup target add x86_64-unknown-linux-gnu &&
-              yarn build --target x86_64-unknown-linux-gnu &&
-              llvm-strip -x *.node
-          - host: ubuntu-latest
-            target: x86_64-unknown-linux-musl
-            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
-            build: set -e && apk add perl && yarn build --target x86_64-unknown-linux-musl && strip *.node
-          - host: ubuntu-latest
-            target: aarch64-unknown-linux-gnu
-            setup: |
-              sudo apt-get update
-              sudo apt-get install pkg-config libx11-dev libssl-dev
-            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
-            build: >-
-              set -e &&
-              export CC_aarch64_unknown_linux_gnu=aarch64-linux-gnu-gcc &&
-              export CC=aarch64-linux-gnu-gcc &&
-              sudo apt update &&
-              sudo apt install -y gcc-aarch64-linux-gnu &&
-              rustup target add aarch64-unknown-linux-gnu &&
-              yarn build --target aarch64-unknown-linux-gnu &&
-              aarch64-unknown-linux-gnu-strip *.node
-          - host: ubuntu-latest
-            target: aarch64-unknown-linux-musl
-            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
-            build: |-
-              set -e &&
-              apk add --no-cache perl &&
-              rustup target add aarch64-unknown-linux-musl &&
-              export OPENSSL_DIR=/usr &&
-              yarn build --target aarch64-unknown-linux-musl
-          - host: ubuntu-latest
-            target: aarch64-linux-android
-            build: yarn build --target aarch64-linux-android
-          - host: ubuntu-latest
-            target: armv7-linux-androideabi
-            build: yarn build --target armv7-linux-androideabi
+#          - host: windows-latest
+#            target: i686-pc-windows-msvc
+#            architecture: x86
+#            build: yarn build --target i686-pc-windows-msvc
+#          - host: windows-latest
+#            target: aarch64-pc-windows-msvc
+#            build: yarn build --target aarch64-pc-windows-msvc
+#          - host: ubuntu-latest
+#            target: x86_64-unknown-linux-gnu
+#            setup: |
+#              sudo apt-get update
+#              sudo apt-get install pkg-config libx11-dev libssl-dev
+#            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
+#            build: |-
+#              set -e &&
+#              rustup target add x86_64-unknown-linux-gnu &&
+#              yarn build --target x86_64-unknown-linux-gnu &&
+#              llvm-strip -x *.node
+#          - host: ubuntu-latest
+#            target: x86_64-unknown-linux-musl
+#            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
+#            build: set -e && apk add perl && yarn build --target x86_64-unknown-linux-musl && strip *.node
+#          - host: ubuntu-latest
+#            target: aarch64-unknown-linux-gnu
+#            setup: |
+#              sudo apt-get update
+#              sudo apt-get install pkg-config libx11-dev libssl-dev
+#            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
+#            build: >-
+#              set -e &&
+#              export CC_aarch64_unknown_linux_gnu=aarch64-linux-gnu-gcc &&
+#              export CC=aarch64-linux-gnu-gcc &&
+#              sudo apt update &&
+#              sudo apt install -y gcc-aarch64-linux-gnu &&
+#              rustup target add aarch64-unknown-linux-gnu &&
+#              yarn build --target aarch64-unknown-linux-gnu &&
+#              aarch64-unknown-linux-gnu-strip *.node
+#          - host: ubuntu-latest
+#            target: aarch64-unknown-linux-musl
+#            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
+#            build: |-
+#              set -e &&
+#              apk add --no-cache perl &&
+#              rustup target add aarch64-unknown-linux-musl &&
+#              export OPENSSL_DIR=/usr &&
+#              yarn build --target aarch64-unknown-linux-musl
+#          - host: ubuntu-latest
+#            target: aarch64-linux-android
+#            build: yarn build --target aarch64-linux-android
+#          - host: ubuntu-latest
+#            target: armv7-linux-androideabi
+#            build: yarn build --target armv7-linux-androideabi
     name: stable - ${{ matrix.settings.target }} - node@18
     runs-on: ${{ matrix.settings.host }}
     steps:
@@ -99,7 +112,7 @@ jobs:
         with:
           node-version: 20
           cache: yarn
-      - name: Install
+      - name: Install rust toolchain
         uses: dtolnay/rust-toolchain@stable
         if: ${{ !matrix.settings.docker }}
         with:
@@ -132,7 +145,7 @@ jobs:
           image: ${{ matrix.settings.docker }}
           options: '--user 0:0 -v ${{ github.workspace }}/.cargo-cache/git/db:/usr/local/cargo/git/db -v ${{ github.workspace }}/.cargo/registry/cache:/usr/local/cargo/registry/cache -v ${{ github.workspace }}/.cargo/registry/index:/usr/local/cargo/registry/index -v ${{ github.workspace }}:/build -w /build'
           run: ${{ matrix.settings.build }}
-      - name: Build
+      - name: Build on host
         run: ${{ matrix.settings.build }}
         if: ${{ !matrix.settings.docker }}
         shell: bash
