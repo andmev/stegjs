@@ -3,7 +3,7 @@
 [![npm](https://img.shields.io/npm/v/stegjs.svg?maxAge=1)](https://www.npmjs.com/package/stegjs) [![npm](https://img.shields.io/npm/dt/stegjs.svg?maxAge=1)](https://www.npmjs.com/package/stegjs) ![Steg.js Test workflow](https://github.com/andmev/stegjs/actions/workflows/test.yml/badge.svg)
 [![npm](https://img.shields.io/npm/l/stegjs.svg?maxAge=1)](https://www.npmjs.com/package/stegjs)
 
-> Command-line utility for steganography in PNG images. With this application you can send secret messages, passwords or other important information.
+> A Node.js module and command-line utility for performing steganographic encoding in PNG images. This application enables the secure transmission of secret messages, passwords, or other critical information by embedding data within images.
 
 ## Installation
 
@@ -13,7 +13,29 @@ To install globally you should enter in terminal window the following command:
 $ npm i -g stegjs
 ```
 
+To install locally you should enter in terminal window the following command:
+
+```sh
+$ npm i stegjs
+```
+
 ## Help
+
+### Usage as Node.js module
+
+```js
+const steg = require('stegjs')
+
+// Encode message
+const response = steg.encode('img.png', 'my_secret_pass', '1x1', './secrets/go.png')
+console.log(response) // -> { message: 'my_secret_pass', pattern: '1x1', output: './secrets/go.png' }
+
+// Decode message
+const response = steg.decode('out.png')
+console.log(response) // -> { message: 'my_secret_pass', pattern: '1x1' }
+```
+
+### Usage as CLI
 
 ```sh
 $ stegjs --help

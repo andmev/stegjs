@@ -1,8 +1,8 @@
-use std::error::Error;
-
 use crate::checker::{is_png, is_right_step, is_uri};
 use crate::converters::string_to_bits;
 use crate::get_file::{by_path, by_uri};
+use crate::EncodeResult;
+use std::error::Error; // Add this import
 
 /// Encodes a message into a PNG image using steganography.
 ///
@@ -15,7 +15,12 @@ use crate::get_file::{by_path, by_uri};
 /// # Errors
 /// Returns an error if the input image is not a valid PNG, if the message does not fit,
 /// or if there are issues reading or writing the files.
-pub async fn encode_rs(img: &str, msg: &str, step: &str, out: &str) -> Result<(), Box<dyn Error>> {
+pub async fn encode_rs(
+  img: &str,
+  msg: &str,
+  step: &str,
+  out: &str,
+) -> Result<EncodeResult, Box<dyn Error>> {
   // Check that the input file is in PNG format.
   if !is_png(img) {
     return Err("Only *.png images are supported.".into());
@@ -31,7 +36,11 @@ pub async fn encode_rs(img: &str, msg: &str, step: &str, out: &str) -> Result<()
   // Proceed to encode the message into the image.
   encode_image(&file_path, msg, step, out)?;
 
-  Ok(())
+  Ok(EncodeResult {
+    output: out.to_string(),
+    message: msg.to_string(),
+    pattern: step.to_string(),
+  })
 }
 
 /// Helper function to encode the message into the image.
@@ -149,7 +158,7 @@ mod tests {
     let test_message = "Test message";
 
     // Encode the message
-    encode_rs(
+    let result = encode_rs(
       temp_in.path().with_extension("png").to_str().unwrap(),
       test_message,
       "1x1",
@@ -158,8 +167,16 @@ mod tests {
     .await
     .expect("Failed to encode message");
 
+    // Verify the result
+    assert_eq!(
+      result.output,
+      temp_out.path().with_extension("png").to_str().unwrap()
+    );
+    assert_eq!(result.message, test_message);
+    assert_eq!(result.pattern, "1x1");
+
     // Load the encoded image
-    let encoded_img = image::open(temp_out.path().with_extension("png")).unwrap();
+    let encoded_img = image::open(&result.output).unwrap();
 
     // Verify that the image was saved correctly
     assert_eq!(encoded_img.dimensions(), (100, 100));

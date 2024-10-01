@@ -3,6 +3,7 @@ use std::error::Error;
 use crate::checker::{is_png, is_uri};
 use crate::converters::{bits_to_string, meta_to_obj};
 use crate::get_file::{by_path, by_uri};
+use crate::DecodeResult; // Add this import
 
 /// Decodes a hidden message from a PNG image using steganography.
 ///
@@ -12,7 +13,7 @@ use crate::get_file::{by_path, by_uri};
 /// # Errors
 /// Returns an error if the input image is not a valid PNG, if decoding fails,
 /// or if there are issues reading the files.
-pub async fn decode_rs(img: &str) -> Result<(), Box<dyn Error>> {
+pub async fn decode_rs(img: &str) -> Result<DecodeResult, Box<dyn Error>> {
   // Check that the input file is in PNG format.
   if !is_png(img) {
     return Err("Only *.png images are supported.".into());
@@ -26,9 +27,9 @@ pub async fn decode_rs(img: &str) -> Result<(), Box<dyn Error>> {
   };
 
   // Proceed to decode the message from the image.
-  decode_image(&file_path)?;
+  let (message, pattern) = decode_image(&file_path)?;
 
-  Ok(())
+  Ok(DecodeResult { message, pattern })
 }
 
 /// Helper function to decode the message from the image.
@@ -38,14 +39,14 @@ pub async fn decode_rs(img: &str) -> Result<(), Box<dyn Error>> {
 ///
 /// # Errors
 /// Returns an error if decoding fails or if the message cannot be reconstructed.
-fn decode_image(file_path: &str) -> Result<(), Box<dyn Error>> {
+fn decode_image(file_path: &str) -> Result<(String, String), Box<dyn Error>> {
   // Load the image from the specified path.
   let img = image::open(file_path)?.to_rgba8();
   let (width, height) = img.dimensions();
 
   // Define the number of bits to read for meta-information.
-  // Assuming meta string is 8 characters: "10|10"
-  let meta_str_length = 8;
+  // Assuming meta string is 8 characters: "10|XX"
+  let meta_str_length = 8; // Adjusted to match the meta format in encode.rs
   let meta_bits_len = meta_str_length * 8;
 
   // Extract meta bits
@@ -117,20 +118,23 @@ fn decode_image(file_path: &str) -> Result<(), Box<dyn Error>> {
   // Convert message bits to string
   let message = bits_to_string(&message_bits)?;
 
-  // Output the decoded message
+  // Construct the pattern string
+  let pattern = format!("{}x{}", width_step_num, height_step_num);
+
+  // Output the decoded message and pattern
   println!(
-    "{} was decoded!\nmessage: {}\npattern: {}x{}",
-    file_path, message, width_step_num, height_step_num
+    "{} was decoded!\nmessage: {}\npattern: {}",
+    file_path, message, pattern
   );
 
-  Ok(())
+  Ok((message, pattern))
 }
 
 #[cfg(test)]
 mod tests {
   use super::*;
   use crate::encode_rs;
-  use image::{GenericImageView, Rgba, RgbaImage};
+  use image::{Rgba, RgbaImage};
   use tempfile::NamedTempFile;
 
   #[tokio::test]
@@ -147,7 +151,7 @@ mod tests {
     let test_message = "Test message";
 
     // Encode the message
-    encode_rs(
+    let encode_result = encode_rs(
       temp_in.path().with_extension("png").to_str().unwrap(),
       test_message,
       "1x1",
@@ -156,19 +160,23 @@ mod tests {
     .await
     .expect("Failed to encode message");
 
-    // Print the contents of the encoded image
-    let encoded_img = image::open(temp_out.path().with_extension("png")).unwrap();
-    println!("Encoded image dimensions: {:?}", encoded_img.dimensions());
+    // Verify the encode result
+    assert_eq!(
+      encode_result.output,
+      temp_out.path().with_extension("png").to_str().unwrap()
+    );
+    assert_eq!(encode_result.message, test_message);
+    assert_eq!(encode_result.pattern, "1x1");
 
     // Decode the message
-    let result = decode_rs(temp_out.path().with_extension("png").to_str().unwrap()).await;
+    let decode_result = decode_rs(temp_out.path().with_extension("png").to_str().unwrap())
+      .await
+      .expect("Failed to decode message");
 
-    match result {
-      Ok(_) => println!("Decoding successful"),
-      Err(e) => {
-        println!("Decoding failed: {:?}", e);
-        panic!("Decoding failed: {:?}", e);
-      }
-    }
+    // Verify the decode result
+    assert_eq!(decode_result.message, test_message);
+    assert_eq!(decode_result.pattern, "1x1");
+
+    println!("Decoding test successful.");
   }
 }

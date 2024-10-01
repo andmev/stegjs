@@ -15,9 +15,12 @@ test.afterEach(() => {
 })
 
 test('encode', async (t) => {
-  await encode(input, 'some-key', '1x1', output)
+  const result = await encode(input, 'some-key', '1x1', output)
   t.timeout(10000, 'make sure the test is not timeout')
   t.is(fs.existsSync(output), true)
+  t.is(result.pattern, '1x1')
+  t.is(result.message, 'some-key')
+  t.is(result.output, output)
 })
 
 test('encode fails if image not exist', async (t) => {

@@ -8,7 +8,7 @@ license     = "MIT"
 name        = "stegjs"
 readme      = "README.md"
 repository  = "https://github.com/andmev/stegjs"
-version     = "3.0.0"
+version     = "3.0.1"
 
 [lib]
 crate-type = ["cdylib"]
@@ -24,7 +24,8 @@ napi = { version = "2.16.11", default-features = false, features = [
 napi-derive = "2.16.12"
 openssl = { version = "0.10", features = ["vendored"] }
 regex = "1.10.6"
-reqwest = { version = "0.12.7", features = ["json", "stream"] }
+reqwest = { version = "0.12.8", features = ["json", "stream"] }
+serde = { version = "1.0.210", features = ["derive"] }
 tokio = { version = "1.40.0", features = ["full"] }
 url = "2.5.2"
 
