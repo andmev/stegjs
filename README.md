@@ -31,7 +31,7 @@ const response = steg.encode('img.png', 'my_secret_pass', '1x1', './secrets/go.p
 console.log(response) // -> { message: 'my_secret_pass', pattern: '1x1', output: './secrets/go.png' }
 
 // Decode message
-const response = steg.decode('out.png')
+const response = steg.decode('./secrets/go.png')
 console.log(response) // -> { message: 'my_secret_pass', pattern: '1x1' }
 ```
 
